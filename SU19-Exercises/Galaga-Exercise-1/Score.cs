@@ -3,8 +3,8 @@ using DIKUArcade.Math;
 
 namespace Galaga_Exercise_1 {
     public class Score {
-        private int score;
         private Text display;
+        private int score;
 
         public Score(Vec2F postition, Vec2F extent) {
             score = 0;

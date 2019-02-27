@@ -324,6 +324,10 @@ TSWLatexianTemp*
 
 #SU18 stuff
 .idea/
+*./idea
+*.\idea
+*.xml
+*.exe
 DIKUArcade/
 .DS_Store
 obj/
@@ -332,3 +336,5 @@ packages/OpenTK2.0.0/
 packages/OpenTK.3.0.0-pre/
 !packages/NUnit.3.5.0/
 .gitmodules
+*.gitmodules
+*.dll
