@@ -13,12 +13,19 @@ namespace Galaga_Exercise_1 {
             this.game = game;
             shotImage = new Image(Path.Combine("Assets", "Images", "BulletRed2.png"));
         }
-
+        
+        /// <summary>
+        /// Sets player direction as given direction.
+        /// </summary>
+        /// <param name="direction"></param>
         public void Direction(Vec2F direction) {
             var shape = Shape.AsDynamicShape();
             shape.ChangeDirection(direction);
         }
 
+        /// <summary>
+        /// Updates the movement of player object.
+        /// </summary>
         public void Move() {
             Shape.Move();
 
@@ -31,6 +38,9 @@ namespace Galaga_Exercise_1 {
             }
         }
 
+        /// <summary>
+        /// Instantiates playerShot at the players gun's position.
+        /// </summary>
         public void Shot() {
             var shot = new PlayerShot(game,
                 new DynamicShape(new Vec2F(Shape.Position.X + 0.046f, Shape.Position.Y + 0.073f),

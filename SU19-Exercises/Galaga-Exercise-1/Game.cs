@@ -23,7 +23,9 @@ namespace Galaga_Exercise_1 {
         private Score score;
         private Window win;
 
-
+        /// <summary>
+        /// Constructor for Game class
+        /// </summary>
         public Game() {
             // For the window, we recommend a 500x500 resolution (a 1:1 aspect ratio).
             win = new Window("Galaga", 500, 500);
@@ -51,6 +53,11 @@ namespace Galaga_Exercise_1 {
 
         public List<PlayerShot> playerShots { get; private set; }
 
+        /// <summary>
+        /// ProcessEvent is the handler for keypresses on during runtime. It broadcasts GameEvents.
+        /// </summary>
+        /// <param name="eventType"></param>
+        /// <param name="gameEvent"></param>
         public void ProcessEvent(GameEventType eventType,
             GameEvent<object> gameEvent) {
             if (eventType == GameEventType.WindowEvent) {
@@ -71,6 +78,9 @@ namespace Galaga_Exercise_1 {
             }
         }
 
+        /// <summary>
+        /// AddEnemies instantiates the enemies that are collected in the enemies List.
+        /// </summary>
         public void AddEnemies() {
             for (var i = 0; i < 8; i++) {
                 var enemy = new Enemy(this,
@@ -79,7 +89,13 @@ namespace Galaga_Exercise_1 {
                 enemies.Add(enemy);
             }
         }
-
+        /// <summary>
+        /// Instantiates the explosion animation at the given position.
+        /// </summary>
+        /// <param name="posX"></param>
+        /// <param name="posY"></param>
+        /// <param name="extentX"></param>
+        /// <param name="extentY"></param>
         public void AddExplosion(float posX, float posY,
             float extentX, float extentY) {
             explosions.AddAnimation(
@@ -87,7 +103,10 @@ namespace Galaga_Exercise_1 {
                 new ImageStride(explosionLength / 8, explosionStrides));
         }
 
-
+        /// <summary>
+        /// IterateShots handles the logic of the playerShots. It checks for collision with enemies and
+        /// deletes both enemies and shots if needed.
+        /// </summary>
         public void IterateShots() {
             foreach (var shot in playerShots) {
                 shot.Shape.Move();
@@ -126,7 +145,10 @@ namespace Galaga_Exercise_1 {
             enemies = newEnemies;
         }
 
-
+        /// <summary>
+        /// GameLoop utilizes the GameTimer class to ensure that the game runs at a steady speed on all systems.
+        /// We update both rendering and game logic in the loop. The speed of the updates are specified in the gameTimer object.
+        /// </summary>
         public void GameLoop() {
             AddEnemies();
             while (win.IsRunning()) {
@@ -158,6 +180,10 @@ namespace Galaga_Exercise_1 {
             }
         }
 
+        /// <summary>
+        /// KeyPress handles logic for a given key sent by ProcessEvent. 
+        /// </summary>
+        /// <param name="key"></param>
         public void KeyPress(string key) {
             switch (key) {
             case "KEY_ESCAPE":
@@ -176,7 +202,11 @@ namespace Galaga_Exercise_1 {
                 break;
             }
         }
-
+        
+        /// <summary>
+        /// KeyRelease handles logic when a key sent by ProcessEvent is released.
+        /// </summary>
+        /// <param name="key"></param>
         public void KeyRelease(string key) {
             switch (key) {
             case "KEY_RIGHT":
