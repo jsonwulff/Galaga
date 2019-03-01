@@ -17,7 +17,7 @@ namespace Galaga_Exercise_1 {
 
         public void RenderScore() {
             display.SetText(string.Format("Score: {0}", score.ToString()));
-            display.SetColor(new Vec3I(255, 0, 0));
+            display.SetColor(new Vec3I(60, 210, 60));
             display.RenderText();
         }
     }

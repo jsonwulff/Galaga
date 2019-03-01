@@ -49,7 +49,7 @@ namespace Galaga_Exercise_1 {
             eventBus.Subscribe(GameEventType.WindowEvent, this);
         }
 
-        public List<PlayerShot> playerShots { get; }
+        public List<PlayerShot> playerShots { get; private set; }
 
         public void ProcessEvent(GameEventType eventType,
             GameEvent<object> gameEvent) {
@@ -106,7 +106,16 @@ namespace Galaga_Exercise_1 {
                     }
                 }
             }
+            
+            var newShot = new List<PlayerShot>();
+            foreach (var shot in playerShots) {
+                if (!shot.IsDeleted()) {
+                    newShot.Add(shot);
+                }
+            }
 
+            playerShots = newShot;
+            
             var newEnemies = new List<Enemy>();
             foreach (var enemy in enemies) {
                 if (!enemy.IsDeleted()) {
