@@ -14,7 +14,9 @@ namespace Galaga_Exercise_1 {
         public void AddPoint(int points) {
             score += points;
         }
-
+        /// <summary>
+        /// Renders the text in a green color.
+        /// </summary>
         public void RenderScore() {
             display.SetText(string.Format("Score: {0}", score.ToString()));
             display.SetColor(new Vec3I(60, 210, 60));

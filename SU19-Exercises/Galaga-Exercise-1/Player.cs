@@ -11,12 +11,19 @@ namespace Galaga_Exercise_1 {
             : base(shape, image) {
             this.game = game;
         }
-
+        
+        /// <summary>
+        /// Sets player direction as given direction.
+        /// </summary>
+        /// <param name="direction"></param>
         public void Direction(Vec2F direction) {
             var shape = Shape.AsDynamicShape();
             shape.ChangeDirection(direction);
         }
 
+        /// <summary>
+        /// Updates the movement of player object.
+        /// </summary>
         public void Move() {
             Vec2F newPos = Shape.AsDynamicShape().Direction + Shape.Position;
             if (!(newPos.X < 0.0f ||
@@ -27,15 +34,18 @@ namespace Galaga_Exercise_1 {
             }
         }
 
+        /// <summary>
+        /// Instantiates playerShot at the players gun's position.
+        /// </summary>
         public void Shot() {
-            var shot = new PlayerShot(game,
-                new DynamicShape(
-                    new Vec2F(
-                        Shape.Position.X + 0.046f, 
-                        Shape.Position.Y + 0.073f),
-                    new Vec2F(0.008f, 0.027f)),
-                game.playerShotImage);
-            game.playerShots.Add(shot);
+            game.playerShots.Add(
+                new PlayerShot(game,
+                    new DynamicShape(
+                        new Vec2F(
+                            this.Shape.Position.X+this.Shape.Extent.X/2, 
+                            this.Shape.Position.Y+this.Shape.Extent.Y),
+                        new Vec2F(0.008f, 0.027f)),
+                    game.playerShotImage));
         }
     }
 }
