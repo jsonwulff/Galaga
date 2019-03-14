@@ -11,64 +11,51 @@ using DIKUArcade.Timers;
 
 namespace Galaga_Exercise_1 {
     public class Game : IGameEventProcessor<object> {
+        private Window win;
+        private GameTimer gameTimer;
+        
+        private Player player;
+        
+        private GameEventBus<object> eventBus;
+        
         private List<Enemy> enemies;
         private List<Image> enemyStrides;
-        private GameEventBus<object> eventBus;
 
-        private int explosionLength = 500;
-        private AnimationContainer explosions;
+        public List<PlayerShot> playerShots { get; private set; }
+        
         private List<Image> explosionStrides;
-        private GameTimer gameTimer;
-        private Player player;
-        private Score score;
-        private Window win;
+        private AnimationContainer explosions;
+        private int explosionLength = 500;
 
+        private Score score;
 
         public Game() {
-            // For the window, we recommend a 500x500 resolution (a 1:1 aspect ratio).
             win = new Window("Galaga", 500, 500);
             gameTimer = new GameTimer(60, 30);
             player = new Player(this,
                 new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
                 new Image(Path.Combine("Assets", "Images", "Player.png")));
-            enemyStrides = ImageStride.CreateStrides(4,
-                Path.Combine("Assets", "Images", "BlueMonster.png"));
-            enemies = new List<Enemy>();
+            
             eventBus = new GameEventBus<object>();
             eventBus.InitializeEventBus(new List<GameEventType> {
                 GameEventType.InputEvent, // key press / key release
                 GameEventType.WindowEvent // messages to the window
             });
-            playerShots = new List<PlayerShot>();
-            explosionStrides = ImageStride.CreateStrides(8,
-                Path.Combine("Assets", "Images", "Explosion.png"));
-            explosions = new AnimationContainer(4);
-            score = new Score(new Vec2F(0.01f, -0.25f), new Vec2F(0.3f, 0.3f));
             win.RegisterEventBus(eventBus);
             eventBus.Subscribe(GameEventType.InputEvent, this);
             eventBus.Subscribe(GameEventType.WindowEvent, this);
-        }
-
-        public List<PlayerShot> playerShots { get; private set; }
-
-        public void ProcessEvent(GameEventType eventType,
-            GameEvent<object> gameEvent) {
-            if (eventType == GameEventType.WindowEvent) {
-                switch (gameEvent.Message) {
-                case "CLOSE_WINDOW":
-                    win.CloseWindow();
-                    break;
-                }
-            } else if (eventType == GameEventType.InputEvent) {
-                switch (gameEvent.Parameter1) {
-                case "KEY_PRESS":
-                    KeyPress(gameEvent.Message);
-                    break;
-                case "KEY_RELEASE":
-                    KeyRelease(gameEvent.Message);
-                    break;
-                }
-            }
+            
+            enemyStrides = ImageStride.CreateStrides(4,
+                Path.Combine("Assets", "Images", "BlueMonster.png"));
+            enemies = new List<Enemy>();
+            
+            playerShots = new List<PlayerShot>();
+            
+            explosionStrides = ImageStride.CreateStrides(8,
+                Path.Combine("Assets", "Images", "Explosion.png"));
+            explosions = new AnimationContainer(4);
+            
+            score = new Score(new Vec2F(0.01f, -0.25f), new Vec2F(0.3f, 0.3f));
         }
 
         public void AddEnemies() {
@@ -79,15 +66,7 @@ namespace Galaga_Exercise_1 {
                 enemies.Add(enemy);
             }
         }
-
-        public void AddExplosion(float posX, float posY,
-            float extentX, float extentY) {
-            explosions.AddAnimation(
-                new StationaryShape(posX, posY, extentX, extentY), explosionLength,
-                new ImageStride(explosionLength / 8, explosionStrides));
-        }
-
-
+        
         public void IterateShots() {
             foreach (var shot in playerShots) {
                 shot.Shape.Move();
@@ -125,23 +104,33 @@ namespace Galaga_Exercise_1 {
 
             enemies = newEnemies;
         }
-
+        
+        public void AddExplosion(float posX, float posY,
+            float extentX, float extentY) {
+            explosions.AddAnimation(
+                new StationaryShape(posX, posY, extentX, extentY), explosionLength,
+                new ImageStride(explosionLength / 8, explosionStrides));
+        }
 
         public void GameLoop() {
             AddEnemies();
+            
             while (win.IsRunning()) {
                 gameTimer.MeasureTime();
                 while (gameTimer.ShouldUpdate()) {
                     win.PollEvents();
-                    // Update game logic here
                     eventBus.ProcessEvents();
+                    
                     player.Move();
+                    
                     IterateShots();
                 }
 
                 if (gameTimer.ShouldRender()) {
                     win.Clear();
-                    // Render gameplay entities here
+
+                    player.RenderEntity();
+                    
                     foreach (var enemy in enemies) {
                         enemy.RenderEntity();
                     }
@@ -151,8 +140,9 @@ namespace Galaga_Exercise_1 {
                     }
 
                     explosions.RenderAnimations();
-                    player.RenderEntity();
+                    
                     score.RenderScore();
+                    
                     win.SwapBuffers();
                 }
             }
@@ -181,10 +171,28 @@ namespace Galaga_Exercise_1 {
             switch (key) {
             case "KEY_RIGHT":
             case "KEY_LEFT":
-            case "KEY_UP":
-            case "KEY_DOWN":
                 player.Direction(new Vec2F(0.00f, 0.0f));
                 break;
+            }
+        }
+        
+        public void ProcessEvent(GameEventType eventType,
+            GameEvent<object> gameEvent) {
+            if (eventType == GameEventType.WindowEvent) {
+                switch (gameEvent.Message) {
+                case "CLOSE_WINDOW":
+                    win.CloseWindow();
+                    break;
+                }
+            } else if (eventType == GameEventType.InputEvent) {
+                switch (gameEvent.Parameter1) {
+                case "KEY_PRESS":
+                    KeyPress(gameEvent.Message);
+                    break;
+                case "KEY_RELEASE":
+                    KeyRelease(gameEvent.Message);
+                    break;
+                }
             }
         }
     }
