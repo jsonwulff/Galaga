@@ -11,8 +11,8 @@ namespace Galaga_Exercise_1 {
             display = new Text(score.ToString(), postition, extent);
         }
 
-        public void AddPoint() {
-            score += 100;
+        public void AddPoint(int points) {
+            score += points;
         }
 
         public void RenderScore() {
