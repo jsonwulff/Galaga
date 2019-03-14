@@ -22,7 +22,8 @@ namespace Galaga_Exercise_1 {
         private List<Image> enemyStrides;
 
         public List<PlayerShot> playerShots { get; private set; }
-        
+        public Image playerShotImage { get; }
+
         private List<Image> explosionStrides;
         private AnimationContainer explosions;
         private int explosionLength = 500;
@@ -50,6 +51,8 @@ namespace Galaga_Exercise_1 {
             enemies = new List<Enemy>();
             
             playerShots = new List<PlayerShot>();
+            playerShotImage = new Image(
+                Path.Combine("Assets", "Images", "BulletRed2.png"));
             
             explosionStrides = ImageStride.CreateStrides(8,
                 Path.Combine("Assets", "Images", "Explosion.png"));
@@ -77,11 +80,11 @@ namespace Galaga_Exercise_1 {
                 foreach (var enemy in enemies) {
                     var shotHit = CollisionDetection.Aabb(shot.Shape.AsDynamicShape(), enemy.Shape);
                     if (shotHit.Collision) {
-                        AddExplosion(enemy.Shape.Position.X, enemy.Shape.Position.Y, 0.1f, 0.1f);
-                        explosions.RenderAnimations();
+                        AddExplosion(enemy.Shape.Position.X, enemy.Shape.Position.Y, 
+                            enemy.Shape.Extent.X, enemy.Shape.Extent.Y);
                         shot.DeleteEntity();
                         enemy.DeleteEntity();
-                        score.AddPoint();
+                        score.AddPoint(100);
                     }
                 }
             }
