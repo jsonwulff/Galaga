@@ -118,14 +118,9 @@ namespace Galaga_Exercise_2 {
 
             playerShots = newShot;
             
-            var newEnemies = new List<Enemy>();
-            foreach (Enemy enemy in squardronRow.Enemies) {
-                if (!enemy.IsDeleted()) {
-                    newEnemies.Add(enemy);
-                }
-            }
-
-            enemies = newEnemies;
+            squardronRow.Enemies.Iterate(entity => {
+                entity.RenderEntity();
+            });
         }
 
        
@@ -168,12 +163,8 @@ namespace Galaga_Exercise_2 {
 
                     player.entity.RenderEntity();
                     
-                    squardronRow.RenderEnemies();
+                    squardronRow.Enemies.Iterate(entity => entity.RenderEntity());
                     
-                    foreach (Enemy enemy in squardronRow.Enemies) {
-                        enemy.RenderEntity();
-                    }
-
                     foreach (var shot in playerShots) {
                         shot.RenderEntity();
                     }
