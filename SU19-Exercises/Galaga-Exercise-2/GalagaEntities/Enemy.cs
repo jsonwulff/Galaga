@@ -5,11 +5,12 @@ using DIKUArcade.Math;
 namespace Galaga_Exercise_2.GalagaEnities.Enemy {
     public class Enemy : Entity {
         private Game game;
-        private Vec2F startingPosition;
+        public Vec2F startingPosition { get; }
 
         public Enemy(Game game, DynamicShape shape, IBaseImage image)
             : base(shape, image) {
             this.game = game;
+            startingPosition = shape.Position;
         }
     }
 }
