@@ -5,12 +5,14 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 
 namespace Galaga_Exercise_2 {
-    public class Player : Entity {
+    public class Player : IGameEventProcessor<object> {
         private Game game;
+        public Entity entity;
 
         public Player(Game game, DynamicShape shape, IBaseImage image)
-            : base(shape, image) {
+            {
             this.game = game;
+            entity = new Entity(shape, image);
         }
         
         
@@ -19,7 +21,7 @@ namespace Galaga_Exercise_2 {
         /// </summary>
         /// <param name="direction"></param>
         public void Direction(Vec2F direction) {
-            var shape = Shape.AsDynamicShape();
+            var shape = entity.Shape.AsDynamicShape();
             shape.ChangeDirection(direction);
         }
 
@@ -27,12 +29,12 @@ namespace Galaga_Exercise_2 {
         /// Updates the movement of player object.
         /// </summary>
         public void Move() {
-            Vec2F newPos = Shape.AsDynamicShape().Direction + Shape.Position;
+            Vec2F newPos = entity.Shape.AsDynamicShape().Direction + entity.Shape.Position;
             if (!(newPos.X < 0.0f ||
-                  newPos.X + Shape.Extent.X > 1.0f ||
-                  newPos.Y + Shape.Extent.Y < 0.0f ||
+                  newPos.X + entity.Shape.Extent.X > 1.0f ||
+                  newPos.Y + entity.Shape.Extent.Y < 0.0f ||
                   newPos.Y > 1.0f)) {
-                Shape.Move();
+                entity.Shape.Move();
             }
         }
 
@@ -44,8 +46,8 @@ namespace Galaga_Exercise_2 {
                 new PlayerShot(game,
                     new DynamicShape(
                         new Vec2F(
-                            this.Shape.Position.X+this.Shape.Extent.X/2, 
-                            this.Shape.Position.Y+this.Shape.Extent.Y),
+                            entity.Shape.Position.X+entity.Shape.Extent.X/2, 
+                            this.entity.Shape.Position.Y+entity.Shape.Extent.Y),
                         new Vec2F(0.008f, 0.027f)),
                     game.playerShotImage));
         }
