@@ -46,6 +46,10 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Score.cs" />
+    <Compile Include="Squadrons\Squadrons.cs" />
+    <Compile Include="Squadrons\SquardronDiagonal.cs" />
+    <Compile Include="Squadrons\SquardroneColumn.cs" />
+    <Compile Include="Squadrons\SquardronRow.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DIKUArcade\DIKUArcade\DIKUArcade.csproj">

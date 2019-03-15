@@ -9,6 +9,7 @@ using DIKUArcade.Math;
 using DIKUArcade.Physics;
 using DIKUArcade.Timers;
 using Galaga_Exercise_2.GalagaEnities.Enemy;
+using Galaga_Exercise_2.Squadrons;
 
 namespace Galaga_Exercise_2 {
     public class Game : IGameEventProcessor<object> {
@@ -21,6 +22,7 @@ namespace Galaga_Exercise_2 {
         
         private List<Enemy> enemies;
         private List<Image> enemyStrides;
+        private SquardronRow squardronRow;
 
         public List<PlayerShot> playerShots { get; private set; }
         public Image playerShotImage { get; }
@@ -57,6 +59,7 @@ namespace Galaga_Exercise_2 {
             enemyStrides = ImageStride.CreateStrides(4,
                 Path.Combine("Assets", "Images", "BlueMonster.png"));
             enemies = new List<Enemy>();
+            squardronRow = new SquardronRow(this);
             
             playerShots = new List<PlayerShot>();
             playerShotImage = new Image(
@@ -73,6 +76,8 @@ namespace Galaga_Exercise_2 {
         /// AddEnemies instantiates the enemies that are collected in the enemies List.
         /// </summary>
         public void AddEnemies() {
+            
+            
             for (var i = 0; i < 8; i++) {
                 var enemy = new Enemy(this,
                     new DynamicShape(new Vec2F(i * 0.1f + 0.1f, 0.90f), new Vec2F(0.1f, 0.1f)),
@@ -144,7 +149,8 @@ namespace Galaga_Exercise_2 {
         /// We update both rendering and game logic in the loop. The speed of the updates are specified in the gameTimer object.
         /// </summary>
         public void GameLoop() {
-            AddEnemies();
+            //AddEnemies();
+            squardronRow.CreateEnemies(enemyStrides);
             
             while (win.IsRunning()) {
                 gameTimer.MeasureTime();
