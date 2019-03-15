@@ -4,7 +4,7 @@ using DIKUArcade.Graphics;
 using Galaga_Exercise_2.GalagaEnities.Enemy;
 
 namespace Galaga_Exercise_2.Squadrons {
-    public class SquardronDiagonal : ISquadron {
+    public class Diagonal : ISquadron {
         public EntityContainer<Enemy> Enemies { get; }
         public int MaxEnemies { get; }
         public void CreateEnemies(List<Image> enemyStrides) {

@@ -23,7 +23,7 @@ namespace Galaga_Exercise_2 {
         
         private List<Enemy> enemies;
         private List<Image> enemyStrides;
-        private SquardronRow squardronRow;
+        private Row row;
         private ZigZagDown movementStrategy;
 
         public List<PlayerShot> playerShots { get; private set; }
@@ -61,7 +61,7 @@ namespace Galaga_Exercise_2 {
             enemyStrides = ImageStride.CreateStrides(4,
                 Path.Combine("Assets", "Images", "BlueMonster.png"));
             enemies = new List<Enemy>();
-            squardronRow = new SquardronRow(this);
+            row = new Row(this);
             movementStrategy = new ZigZagDown();
             
             
@@ -101,7 +101,7 @@ namespace Galaga_Exercise_2 {
                     shot.DeleteEntity();
                 }
 
-                foreach (Enemy enemy in squardronRow.Enemies) {
+                foreach (Enemy enemy in row.Enemies) {
                     var shotHit = CollisionDetection.Aabb(shot.Shape.AsDynamicShape(), enemy.Shape);
                     if (shotHit.Collision) {
                         AddExplosion(enemy.Shape.Position.X, enemy.Shape.Position.Y, 
@@ -122,7 +122,7 @@ namespace Galaga_Exercise_2 {
 
             playerShots = newShot;
             
-            squardronRow.Enemies.Iterate(entity => {
+            row.Enemies.Iterate(entity => {
                 entity.RenderEntity();
             });
         }
@@ -149,7 +149,7 @@ namespace Galaga_Exercise_2 {
         /// </summary>
         public void GameLoop() {
             //AddEnemies();
-            squardronRow.CreateEnemies(enemyStrides);
+            row.CreateEnemies(enemyStrides);
             
             while (win.IsRunning()) {
                 gameTimer.MeasureTime();
@@ -159,7 +159,7 @@ namespace Galaga_Exercise_2 {
                     
                     player.Move();
                     
-                    movementStrategy.MoveEnemies(squardronRow.Enemies);
+                    movementStrategy.MoveEnemies(row.Enemies);
                     
                     IterateShots();
                 }
@@ -169,7 +169,7 @@ namespace Galaga_Exercise_2 {
 
                     player.entity.RenderEntity();
                     
-                    squardronRow.Enemies.Iterate(entity => entity.RenderEntity());
+                    row.Enemies.Iterate(entity => entity.RenderEntity());
                     
                     foreach (var shot in playerShots) {
                         shot.RenderEntity();

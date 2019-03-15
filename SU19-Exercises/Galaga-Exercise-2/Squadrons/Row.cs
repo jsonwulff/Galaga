@@ -5,12 +5,12 @@ using DIKUArcade.Math;
 using Galaga_Exercise_2.GalagaEnities.Enemy;
 
 namespace Galaga_Exercise_2.Squadrons {
-    public class SquardronRow : ISquadron {
+    public class Row : ISquadron {
         private Game game;
         public EntityContainer<Enemy> Enemies { get; }
         public int MaxEnemies { get; }
 
-        public SquardronRow(Game game) {
+        public Row(Game game) {
            this.game = game;
             MaxEnemies = 8;
             Enemies = new EntityContainer<Enemy>();
