@@ -1,9 +1,10 @@
 using System.IO;
 using DIKUArcade.Entities;
+using DIKUArcade.EventBus;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 
-namespace Galaga_Exercise_1 {
+namespace Galaga_Exercise_2 {
     public class Player : Entity {
         private Game game;
 
@@ -47,5 +48,50 @@ namespace Galaga_Exercise_1 {
                         new Vec2F(0.008f, 0.027f)),
                     game.playerShotImage));
         }
+        
+        /// <summary>
+        /// KeyPress handles logic for a given key sent by ProcessEvent. 
+        /// </summary>
+        /// <param name="key"></param>
+        public void KeyPress(string key) {
+            switch (key) {
+            case "KEY_RIGHT":
+                Direction(new Vec2F(0.01f, 0.0f));
+                break;
+            case "KEY_LEFT":
+                Direction(new Vec2F(-0.01f, 0.0f));
+                break;
+            case "KEY_SPACE":
+                Shot();
+                break;
+            }
+        }
+        
+        /// <summary>
+        /// KeyRelease handles logic when a key sent by ProcessEvent is released.
+        /// </summary>
+        /// <param name="key"></param>
+        public void KeyRelease(string key) {
+            switch (key) {
+            case "KEY_RIGHT":
+            case "KEY_LEFT":
+                Direction(new Vec2F(0.00f, 0.0f));
+                break;
+            }
+        }
+
+/*       public void ProcessEvent(GameEventType eventType, GameEvent<object> gameEvent) {
+            if (eventType == GameEventType.InputEvent) {
+                switch (gameEvent.Parameter1) {
+                case "KEY_PRESS":
+                    KeyPress(gameEvent.Message);
+                    break;
+                case "KEY_RELEASE":
+                    KeyRelease(gameEvent.Message);
+                    break;
+                }
+            }
+       }*/
+        
     }
 }

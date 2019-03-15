@@ -8,8 +8,9 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Physics;
 using DIKUArcade.Timers;
+using Galaga_Exercise_2.GalagaEnities.Enemy;
 
-namespace Galaga_Exercise_1 {
+namespace Galaga_Exercise_2 {
     public class Game : IGameEventProcessor<object> {
         private Window win;
         private GameTimer gameTimer;
@@ -172,6 +173,12 @@ namespace Galaga_Exercise_1 {
                     
                     win.SwapBuffers();
                 }
+                
+                if (gameTimer.ShouldReset()) {
+                    // 1 second has passed - display last captured ups and fps
+                    win.Title = "Galaga | UPS: " + gameTimer.CapturedUpdates +
+                                ", FPS: " + gameTimer.CapturedFrames;
+                }
             }
         }
 
@@ -186,15 +193,15 @@ namespace Galaga_Exercise_1 {
                     GameEventFactory<object>.CreateGameEventForAllProcessors(
                         GameEventType.WindowEvent, this, "CLOSE_WINDOW", "", ""));
                 break;
-            case "KEY_RIGHT":
-                player.Direction(new Vec2F(0.01f, 0.0f));
-                break;
-            case "KEY_LEFT":
-                player.Direction(new Vec2F(-0.01f, 0.0f));
-                break;
-            case "KEY_SPACE":
-                player.Shot();
-                break;
+//            case "KEY_RIGHT":
+//                player.Direction(new Vec2F(0.01f, 0.0f));
+//                break;
+//            case "KEY_LEFT":
+//                player.Direction(new Vec2F(-0.01f, 0.0f));
+//                break;
+//            case "KEY_SPACE":
+//                player.Shot();
+//                break;
             }
         }
         
@@ -203,12 +210,13 @@ namespace Galaga_Exercise_1 {
         /// </summary>
         /// <param name="key"></param>
         public void KeyRelease(string key) {
-            switch (key) {
-            case "KEY_RIGHT":
-            case "KEY_LEFT":
-                player.Direction(new Vec2F(0.00f, 0.0f));
-                break;
-            }
+            throw new NotImplementedException();
+//            switch (key) {
+//            case "KEY_RIGHT":
+//            case "KEY_LEFT":
+//                player.Direction(new Vec2F(0.00f, 0.0f));
+//                break;
+//            }
         }
         
         /// <summary>
@@ -216,8 +224,7 @@ namespace Galaga_Exercise_1 {
         /// </summary>
         /// <param name="eventType"></param>
         /// <param name="gameEvent"></param>
-        public void ProcessEvent(GameEventType eventType,
-            GameEvent<object> gameEvent) {
+        public void ProcessEvent(GameEventType eventType,GameEvent<object> gameEvent) {
             if (eventType == GameEventType.WindowEvent) {
                 switch (gameEvent.Message) {
                 case "CLOSE_WINDOW":
@@ -228,9 +235,10 @@ namespace Galaga_Exercise_1 {
                 switch (gameEvent.Parameter1) {
                 case "KEY_PRESS":
                     KeyPress(gameEvent.Message);
+                    player.KeyPress(gameEvent.Message);
                     break;
                 case "KEY_RELEASE":
-                    KeyRelease(gameEvent.Message);
+                    player.KeyRelease(gameEvent.Message);
                     break;
                 }
             }

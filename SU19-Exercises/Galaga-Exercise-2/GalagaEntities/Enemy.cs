@@ -1,9 +1,11 @@
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
+using DIKUArcade.Math;
 
-namespace Galaga_Exercise_1 {
+namespace Galaga_Exercise_2.GalagaEnities.Enemy {
     public class Enemy : Entity {
         private Game game;
+        private Vec2F startingPosition;
 
         public Enemy(Game game, DynamicShape shape, IBaseImage image)
             : base(shape, image) {
