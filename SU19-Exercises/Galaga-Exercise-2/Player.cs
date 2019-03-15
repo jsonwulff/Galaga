@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using DIKUArcade.Entities;
 using DIKUArcade.EventBus;
@@ -7,13 +8,15 @@ using DIKUArcade.Math;
 namespace Galaga_Exercise_2 {
     public class Player : IGameEventProcessor<object> {
         private Game game;
-        public Entity entity;
+
+        public Entity entity { get; private set; }
 
         public Player(Game game, DynamicShape shape, IBaseImage image)
             {
             this.game = game;
             entity = new Entity(shape, image);
-        }
+            }
+        
         
         
         // <summary>
@@ -38,10 +41,25 @@ namespace Galaga_Exercise_2 {
             }
         }
 
+        private void MoveLeft() {
+            Direction(new Vec2F(-0.01f, 0.0f));
+            //entity.Shape.Move();
+        }
+        
+        private void MoveRight() {
+            Direction(new Vec2F(0.01f, 0.0f));
+            //entity.Shape.Move();
+        }
+        
+        private void MoveStop() {
+            Direction(new Vec2F(0.00f, 0.0f));
+            //entity.Shape.Move();
+        }
+
         /// <summary>
         /// Instantiates playerShot at the players gun's position.
         /// </summary>
-        public void Shot() {
+        public void Shoot() {
             game.playerShots.Add(
                 new PlayerShot(game,
                     new DynamicShape(
@@ -52,49 +70,25 @@ namespace Galaga_Exercise_2 {
                     game.playerShotImage));
         }
         
-        /// <summary>
-        /// KeyPress handles logic for a given key sent by ProcessEvent. 
-        /// </summary>
-        /// <param name="key"></param>
-        public void KeyPress(string key) {
-            switch (key) {
-            case "KEY_RIGHT":
-                Direction(new Vec2F(0.01f, 0.0f));
-                break;
-            case "KEY_LEFT":
-                Direction(new Vec2F(-0.01f, 0.0f));
-                break;
-            case "KEY_SPACE":
-                Shot();
-                break;
-            }
-        }
-        
-        /// <summary>
-        /// KeyRelease handles logic when a key sent by ProcessEvent is released.
-        /// </summary>
-        /// <param name="key"></param>
-        public void KeyRelease(string key) {
-            switch (key) {
-            case "KEY_RIGHT":
-            case "KEY_LEFT":
-                Direction(new Vec2F(0.00f, 0.0f));
-                break;
-            }
-        }
 
-/*       public void ProcessEvent(GameEventType eventType, GameEvent<object> gameEvent) {
-            if (eventType == GameEventType.InputEvent) {
-                switch (gameEvent.Parameter1) {
-                case "KEY_PRESS":
-                    KeyPress(gameEvent.Message);
+        public void ProcessEvent(GameEventType eventType, GameEvent<object> gameEvent) {
+//            if (eventType != GameEventType.PlayerEvent) {
+//                return;
+//            }
+            switch (gameEvent.Message) {
+                case "MOVE_LEFT":
+                   MoveLeft();
+                   break;
+                case "MOVE_RIGHT":
+                    MoveRight();
                     break;
-                case "KEY_RELEASE":
-                    KeyRelease(gameEvent.Message);
+                case "MOVE_STOP":
+                    MoveStop();
                     break;
-                }
+                case "SHOOT":
+                    Shoot();
+                    break;
             }
-       }*/
-        
+        }
     }
 }

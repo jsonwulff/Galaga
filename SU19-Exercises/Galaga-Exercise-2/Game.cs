@@ -17,7 +17,7 @@ namespace Galaga_Exercise_2 {
         
         private Player player;
         
-        private GameEventBus<object> eventBus;
+        public GameEventBus<object> eventBus;
         
         private List<Enemy> enemies;
         private List<Image> enemyStrides;
@@ -46,11 +46,13 @@ namespace Galaga_Exercise_2 {
             eventBus = new GameEventBus<object>();
             eventBus.InitializeEventBus(new List<GameEventType> {
                 GameEventType.InputEvent, // key press / key release
-                GameEventType.WindowEvent // messages to the window
+                GameEventType.WindowEvent, // messages to the window
+                GameEventType.PlayerEvent
             });
             win.RegisterEventBus(eventBus);
             eventBus.Subscribe(GameEventType.InputEvent, this);
             eventBus.Subscribe(GameEventType.WindowEvent, this);
+            eventBus.Subscribe(GameEventType.PlayerEvent, player);
             
             enemyStrides = ImageStride.CreateStrides(4,
                 Path.Combine("Assets", "Images", "BlueMonster.png"));
@@ -158,7 +160,7 @@ namespace Galaga_Exercise_2 {
                 if (gameTimer.ShouldRender()) {
                     win.Clear();
 
-                    player.RenderEntity();
+                    player.entity.RenderEntity();
                     
                     foreach (var enemy in enemies) {
                         enemy.RenderEntity();
@@ -194,15 +196,22 @@ namespace Galaga_Exercise_2 {
                     GameEventFactory<object>.CreateGameEventForAllProcessors(
                         GameEventType.WindowEvent, this, "CLOSE_WINDOW", "", ""));
                 break;
-//            case "KEY_RIGHT":
-//                player.Direction(new Vec2F(0.01f, 0.0f));
-//                break;
-//            case "KEY_LEFT":
-//                player.Direction(new Vec2F(-0.01f, 0.0f));
-//                break;
-//            case "KEY_SPACE":
-//                player.Shot();
-//                break;
+            case "KEY_RIGHT":
+                eventBus.RegisterEvent(
+                        GameEventFactory<object>.CreateGameEventForAllProcessors(
+                            GameEventType.PlayerEvent, this, "MOVE_RIGHT", "", ""));
+                break;
+            case "KEY_LEFT":
+                eventBus.RegisterEvent(
+                    GameEventFactory<object>.CreateGameEventForAllProcessors(
+                        GameEventType.PlayerEvent, this, "MOVE_LEFT", "", ""));
+                break;
+            case "KEY_SPACE":
+                eventBus.RegisterEvent(
+                    GameEventFactory<object>.CreateGameEventForAllProcessors(
+                        GameEventType.PlayerEvent, this, "SHOOT", "", ""));
+                break;
+            
             }
         }
         
@@ -211,13 +220,14 @@ namespace Galaga_Exercise_2 {
         /// </summary>
         /// <param name="key"></param>
         public void KeyRelease(string key) {
-            throw new NotImplementedException();
-//            switch (key) {
-//            case "KEY_RIGHT":
-//            case "KEY_LEFT":
-//                player.Direction(new Vec2F(0.00f, 0.0f));
-//                break;
-//            }
+            switch (key) {
+            case "KEY_RIGHT":
+            case "KEY_LEFT":
+                eventBus.RegisterEvent(
+                    GameEventFactory<object>.CreateGameEventForAllProcessors(
+                        GameEventType.PlayerEvent, this, "MOVE_STOP", "", ""));
+                break;
+            }
         }
         
         /// <summary>
@@ -236,10 +246,9 @@ namespace Galaga_Exercise_2 {
                 switch (gameEvent.Parameter1) {
                 case "KEY_PRESS":
                     KeyPress(gameEvent.Message);
-                    player.KeyPress(gameEvent.Message);
                     break;
                 case "KEY_RELEASE":
-                    player.KeyRelease(gameEvent.Message);
+                    KeyRelease(gameEvent.Message);
                     break;
                 }
             }
