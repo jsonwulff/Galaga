@@ -24,5 +24,11 @@ namespace Galaga_Exercise_2.Squadrons {
                     new ImageStride(80, enemyStrides)));
             }
         }
+
+        public void RenderEnemies() {
+            foreach (Enemy enemy in Enemies) {
+                enemy.RenderEntity();
+            }
+        }
     }
 }

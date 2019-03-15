@@ -97,7 +97,7 @@ namespace Galaga_Exercise_2 {
                     shot.DeleteEntity();
                 }
 
-                foreach (var enemy in enemies) {
+                foreach (Enemy enemy in squardronRow.Enemies) {
                     var shotHit = CollisionDetection.Aabb(shot.Shape.AsDynamicShape(), enemy.Shape);
                     if (shotHit.Collision) {
                         AddExplosion(enemy.Shape.Position.X, enemy.Shape.Position.Y, 
@@ -119,7 +119,7 @@ namespace Galaga_Exercise_2 {
             playerShots = newShot;
             
             var newEnemies = new List<Enemy>();
-            foreach (var enemy in enemies) {
+            foreach (Enemy enemy in squardronRow.Enemies) {
                 if (!enemy.IsDeleted()) {
                     newEnemies.Add(enemy);
                 }
@@ -168,7 +168,9 @@ namespace Galaga_Exercise_2 {
 
                     player.entity.RenderEntity();
                     
-                    foreach (var enemy in enemies) {
+                    squardronRow.RenderEnemies();
+                    
+                    foreach (Enemy enemy in squardronRow.Enemies) {
                         enemy.RenderEntity();
                     }
 
