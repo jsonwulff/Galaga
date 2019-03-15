@@ -41,6 +41,10 @@
   <ItemGroup>
     <Compile Include="GalagaEntities\Enemy.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="MovementStategy\Down.cs" />
+    <Compile Include="MovementStategy\MovementStrategy.cs" />
+    <Compile Include="MovementStategy\NoMove.cs" />
+    <Compile Include="MovementStategy\ZigZagDown.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerShot.cs" />
     <Compile Include="Program.cs" />

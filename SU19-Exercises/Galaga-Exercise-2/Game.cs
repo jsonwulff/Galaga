@@ -9,6 +9,7 @@ using DIKUArcade.Math;
 using DIKUArcade.Physics;
 using DIKUArcade.Timers;
 using Galaga_Exercise_2.GalagaEnities.Enemy;
+using Galaga_Exercise_2.MovementStrategy;
 using Galaga_Exercise_2.Squadrons;
 
 namespace Galaga_Exercise_2 {
@@ -23,6 +24,7 @@ namespace Galaga_Exercise_2 {
         private List<Enemy> enemies;
         private List<Image> enemyStrides;
         private SquardronRow squardronRow;
+        private Down movementStrategy;
 
         public List<PlayerShot> playerShots { get; private set; }
         public Image playerShotImage { get; }
@@ -60,6 +62,8 @@ namespace Galaga_Exercise_2 {
                 Path.Combine("Assets", "Images", "BlueMonster.png"));
             enemies = new List<Enemy>();
             squardronRow = new SquardronRow(this);
+            movementStrategy = new Down();
+            
             
             playerShots = new List<PlayerShot>();
             playerShotImage = new Image(
@@ -154,6 +158,8 @@ namespace Galaga_Exercise_2 {
                     eventBus.ProcessEvents();
                     
                     player.Move();
+                    
+                    movementStrategy.MoveEnemies(squardronRow.Enemies);
                     
                     IterateShots();
                 }

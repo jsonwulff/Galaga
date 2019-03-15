@@ -11,11 +11,10 @@ namespace Galaga_Exercise_2 {
 
         public Entity entity { get; private set; }
 
-        public Player(Game game, DynamicShape shape, IBaseImage image)
-            {
+        public Player(Game game, DynamicShape shape, IBaseImage image) {
             this.game = game;
             entity = new Entity(shape, image);
-            }
+        }
         
         
         
@@ -23,7 +22,7 @@ namespace Galaga_Exercise_2 {
         /// Sets player direction as given direction.
         /// </summary>
         /// <param name="direction"></param>
-        public void Direction(Vec2F direction) {
+        private void Direction(Vec2F direction) {
             var shape = entity.Shape.AsDynamicShape();
             shape.ChangeDirection(direction);
         }
