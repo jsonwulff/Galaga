@@ -121,6 +121,7 @@ namespace Galaga_Exercise_2 {
             enemies = newEnemies;
         }
 
+       
         /// <summary>
         /// Instantiates the explosion animation at the given position.
         /// </summary>

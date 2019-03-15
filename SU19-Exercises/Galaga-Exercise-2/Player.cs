@@ -13,7 +13,8 @@ namespace Galaga_Exercise_2 {
             this.game = game;
         }
         
-        /// <summary>
+        
+        // <summary>
         /// Sets player direction as given direction.
         /// </summary>
         /// <param name="direction"></param>
