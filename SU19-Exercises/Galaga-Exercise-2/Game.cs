@@ -24,7 +24,7 @@ namespace Galaga_Exercise_2 {
         private List<Enemy> enemies;
         private List<Image> enemyStrides;
         private SquardronRow squardronRow;
-        private Down movementStrategy;
+        private ZigZagDown movementStrategy;
 
         public List<PlayerShot> playerShots { get; private set; }
         public Image playerShotImage { get; }
@@ -62,7 +62,7 @@ namespace Galaga_Exercise_2 {
                 Path.Combine("Assets", "Images", "BlueMonster.png"));
             enemies = new List<Enemy>();
             squardronRow = new SquardronRow(this);
-            movementStrategy = new Down();
+            movementStrategy = new ZigZagDown();
             
             
             playerShots = new List<PlayerShot>();

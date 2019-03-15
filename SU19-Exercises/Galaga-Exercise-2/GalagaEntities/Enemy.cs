@@ -13,19 +13,13 @@ namespace Galaga_Exercise_2.GalagaEnities.Enemy {
             startingPosition = shape.Position;
         }
         
-        private void Direction(Vec2F direction) {
+        public void Direction(Vec2F direction) {
             var shape = Shape.AsDynamicShape();
             shape.ChangeDirection(direction);
         }
         
         public void Move() {
-            Vec2F newPos = Shape.AsDynamicShape().Direction + Shape.Position;
-            if (!(newPos.X < 0.0f ||
-                  newPos.X + Shape.Extent.X > 1.0f ||
-                  newPos.Y + Shape.Extent.Y < 0.0f ||
-                  newPos.Y > 1.0f)) {
-                Shape.Move();
-            }
+            Shape.Move();
         }
     }
 }
