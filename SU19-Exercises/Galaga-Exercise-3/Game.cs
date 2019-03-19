@@ -8,6 +8,7 @@ using DIKUArcade.Math;
 using DIKUArcade.Physics;
 using DIKUArcade.Timers;
 using Galaga_Exercise_3.GalagaEntities;
+using Galaga_Exercise_3.GalagaStates;
 using Galaga_Exercise_3.MovementStategy;
 using Galaga_Exercise_3.Squadrons;
 
@@ -15,10 +16,11 @@ namespace Galaga_Exercise_3 {
     public class Game : IGameEventProcessor<object> {
         private Window win;
         private GameTimer gameTimer;
+
+        private StateMachine stateMachine;
         
         private Player player;
         
-        //public GalagaBus GalagaBus;
         public GameEventBus<object> eventBus;
         
         private List<Enemy> enemies;
@@ -42,6 +44,8 @@ namespace Galaga_Exercise_3 {
         public Game() {
             win = new Window("Galaga", 500, 500);
             gameTimer = new GameTimer(60, 60);
+            
+            stateMachine = new StateMachine();
             
             player = new Player(this,
                 new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
