@@ -8,39 +8,39 @@ namespace Galaga_Testing {
 
         [Test]
         public void TestStringToState1() {
-            Assert.AreEqual(StateTransformer.TransformStringToState("GameRunning"),
+            Assert.AreEqual(StateTransformer.TransformStringToState("GAME_RUNNING"),
                 GameStateType.GameRunning);
         }
 
         [Test]
         public void TestStringToState2() {
-            Assert.AreEqual(StateTransformer.TransformStringToState("MainMenu"),
+            Assert.AreEqual(StateTransformer.TransformStringToState("MAIN_MENU"),
                 GameStateType.MainMenu);
         }
 
         [Test]
         public void TestStringToState3() {
-            Assert.AreEqual(StateTransformer.TransformStringToState("GamePaused"),
+            Assert.AreEqual(StateTransformer.TransformStringToState("GAME_PAUSED"),
                 GameStateType.GamePaused);
         }
         
         
         [Test]
         public void TestStateToString1() {
-            Assert.AreEqual(StateTransformer.TransformStringToState("GameRunning"),
-                GameStateType.GameRunning);
+            Assert.AreEqual(StateTransformer.TransformStateToString(GameStateType.GameRunning),
+                "GAME_RUNNING");
         }
 
         [Test]
         public void TestStateToString2() {
-            Assert.AreEqual(StateTransformer.TransformStringToState("MainMenu"),
-                GameStateType.MainMenu);
+            Assert.AreEqual(StateTransformer.TransformStateToString(GameStateType.GamePaused),
+                "GAME_PAUSED");
         }
 
         [Test]
         public void TestStateToString3() {
-            Assert.AreEqual(StateTransformer.TransformStringToState("GamePaused"),
-                GameStateType.GamePaused);
+            Assert.AreEqual(StateTransformer.TransformStateToString(GameStateType.MainMenu),
+                "MAIN_MENU");
         }
         
         

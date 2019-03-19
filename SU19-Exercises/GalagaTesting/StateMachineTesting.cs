@@ -1,3 +1,4 @@
+using DIKUArcade.EventBus;
 using Galaga_Exercise_3;
 using Galaga_Exercise_3.GalagaStates;
 using NUnit.Framework;
@@ -16,6 +17,7 @@ namespace Galaga_Testing {
             //     and GameEventProcessors
 
         }
+        
         [Test]
         public void TestInitialState() {
             Assert.That(stateMachine.ActiveState, Is.InstanceOf<MainMenu>());
@@ -31,6 +33,7 @@ namespace Galaga_Testing {
             GalagaBus.GetBus().ProcessEventsSequentially();
             Assert.That(stateMachine.ActiveState, Is.InstanceOf<GamePaused>());
         }
+        
         
     }
 }

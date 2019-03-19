@@ -1,3 +1,5 @@
+using System;
+
 namespace Galaga_Exercise_3.GalagaStates {
     public enum GameStateType {
         GameRunning,
@@ -9,19 +11,28 @@ namespace Galaga_Exercise_3.GalagaStates {
         
         public static GameStateType TransformStringToState(string state) {
             switch (state) {
-            case "GameRunning":
+            case "GAME_RUNNING":
                 return GameStateType.GameRunning;
-            case "GamePaused":
+            case "GAME_PAUSED":
                 return GameStateType.GamePaused;
-            case "MainMenu":
+            case "MAIN_MENU":
                 return GameStateType.MainMenu;
             }
 
-            return GameStateType.MainMenu;
+            throw new ArgumentException("String not recognized");
         }
 
         public static string TransformStateToString(GameStateType state) {
-            return state.ToString();
+            switch (state) {
+            case GameStateType.GameRunning:
+                return "GAME_RUNNING";
+            case GameStateType.GamePaused:
+                return "GAME_PAUSED";
+            case GameStateType.MainMenu:
+                return "MAIN_MENU";
+            }
+            
+            throw new ArgumentException("GameStateType not recognized");
         }
     }
 }
