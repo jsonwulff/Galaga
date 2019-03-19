@@ -18,6 +18,7 @@ namespace Galaga_Exercise_3 {
         
         private Player player;
         
+        public GalagaBus GalagaBus;
         public GameEventBus<object> eventBus;
         
         private List<Enemy> enemies;
@@ -34,7 +35,7 @@ namespace Galaga_Exercise_3 {
 
 
         private Score score;
-
+        
         /// <summary>
         /// Constructor for Game class
         /// </summary>
@@ -45,8 +46,8 @@ namespace Galaga_Exercise_3 {
             player = new Player(this,
                 new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
                 new Image(Path.Combine("Assets", "Images", "Player.png")));
-            
-            eventBus = new GameEventBus<object>();
+
+            eventBus = GalagaBus.GetBus();
             eventBus.InitializeEventBus(new List<GameEventType> {
                 GameEventType.InputEvent, // key press / key release
                 GameEventType.WindowEvent, // messages to the window
@@ -74,7 +75,7 @@ namespace Galaga_Exercise_3 {
             
             score = new Score(new Vec2F(0.01f, -0.25f), new Vec2F(0.3f, 0.3f));
         }
-
+        
         /// <summary>
         /// AddEnemies instantiates the enemies that are collected in the enemies List.
         /// </summary>
