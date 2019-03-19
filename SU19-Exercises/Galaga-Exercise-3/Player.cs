@@ -69,9 +69,9 @@ namespace Galaga_Exercise_3 {
         
 
         public void ProcessEvent(GameEventType eventType, GameEvent<object> gameEvent) {
-//            if (eventType != GameEventType.PlayerEvent) {
-//                return;
-//            }
+            if (eventType != GameEventType.PlayerEvent) {
+                return;
+            }
             switch (gameEvent.Message) {
                 case "MOVE_LEFT":
                    MoveLeft();
