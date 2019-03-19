@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galaga-Exercise-2", "Galaga
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galaga-Exercise-3", "Galaga-Exercise-3\Galaga-Exercise-3.csproj", "{B0BACA6E-AA2D-4C0D-BA27-2B5B38B0D230}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GalagaTesting", "GalagaTesting\GalagaTesting.csproj", "{2531F2B2-991B-409F-98D8-9A950BC0C475}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{B0BACA6E-AA2D-4C0D-BA27-2B5B38B0D230}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0BACA6E-AA2D-4C0D-BA27-2B5B38B0D230}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0BACA6E-AA2D-4C0D-BA27-2B5B38B0D230}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2531F2B2-991B-409F-98D8-9A950BC0C475}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2531F2B2-991B-409F-98D8-9A950BC0C475}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2531F2B2-991B-409F-98D8-9A950BC0C475}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2531F2B2-991B-409F-98D8-9A950BC0C475}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
