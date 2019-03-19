@@ -1,3 +1,4 @@
+
 using NUnit.Framework;
 using Galaga_Exercise_3;
 using Galaga_Exercise_3.GalagaStates;
@@ -7,7 +8,8 @@ namespace Galaga_Testing {
 
         [Test]
         public void TestStringToState1() {
-            Assert.AreEqual(StateTransformer.TransformStringToState("GameRunning"),GameStateType.GameRunning);
+            Assert.AreEqual(StateTransformer.TransformStringToState("GameRunning"),
+                GameStateType.GameRunning);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Galaga_Exercise_3 {
         
         private Player player;
         
-        public GalagaBus GalagaBus;
+        //public GalagaBus GalagaBus;
         public GameEventBus<object> eventBus;
         
         private List<Enemy> enemies;
