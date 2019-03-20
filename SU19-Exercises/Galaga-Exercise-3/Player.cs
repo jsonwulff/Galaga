@@ -14,8 +14,6 @@ namespace Galaga_Exercise_3 {
             entity = new Entity(shape, image);
         }
         
-        
-        
         // <summary>
         /// Sets player direction as given direction.
         /// </summary>
@@ -40,17 +38,14 @@ namespace Galaga_Exercise_3 {
 
         private void MoveLeft() {
             Direction(new Vec2F(-0.01f, 0.0f));
-            //entity.Shape.Move();
         }
         
         private void MoveRight() {
             Direction(new Vec2F(0.01f, 0.0f));
-            //entity.Shape.Move();
         }
         
         private void MoveStop() {
             Direction(new Vec2F(0.00f, 0.0f));
-            //entity.Shape.Move();
         }
 
         /// <summary>
@@ -67,6 +62,37 @@ namespace Galaga_Exercise_3 {
                     game.playerShotImage));
         }
         
+        public void KeyPress(string key) {
+            switch (key) {
+            case "KEY_RIGHT":
+               game.eventBus.RegisterEvent(
+                    GameEventFactory<object>.CreateGameEventForAllProcessors(
+                        GameEventType.PlayerEvent, this, "MOVE_RIGHT", "", ""));
+                break;
+            case "KEY_LEFT":
+                game.eventBus.RegisterEvent(
+                    GameEventFactory<object>.CreateGameEventForAllProcessors(
+                        GameEventType.PlayerEvent, this, "MOVE_LEFT", "", ""));
+                break;
+            case "KEY_SPACE":
+                game.eventBus.RegisterEvent(
+                    GameEventFactory<object>.CreateGameEventForAllProcessors(
+                        GameEventType.PlayerEvent, this, "SHOOT", "", ""));
+                break;
+            
+            }
+        }
+        
+        public void KeyRelease(string key) {
+            switch (key) {
+            case "KEY_RIGHT":
+            case "KEY_LEFT":
+                game.eventBus.RegisterEvent(
+                    GameEventFactory<object>.CreateGameEventForAllProcessors(
+                        GameEventType.PlayerEvent, this, "MOVE_STOP", "", ""));
+                break;
+            }
+        }
 
         public void ProcessEvent(GameEventType eventType, GameEvent<object> gameEvent) {
             if (eventType != GameEventType.PlayerEvent) {

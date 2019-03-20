@@ -81,20 +81,6 @@ namespace Galaga_Exercise_3 {
         }
         
         /// <summary>
-        /// AddEnemies instantiates the enemies that are collected in the enemies List.
-        /// </summary>
-        public void AddEnemies() {
-            
-            
-            for (var i = 0; i < 8; i++) {
-                var enemy = new Enemy(this,
-                    new DynamicShape(new Vec2F(i * 0.1f + 0.1f, 0.90f), new Vec2F(0.1f, 0.1f)),
-                    new ImageStride(80, enemyStrides));
-                enemies.Add(enemy);
-            }
-        }
-
-        /// <summary>
         /// IterateShots handles the logic of the playerShots. It checks for collision with enemies and
         /// deletes both enemies and shots if needed.
         /// </summary>
@@ -204,23 +190,7 @@ namespace Galaga_Exercise_3 {
                 eventBus.RegisterEvent(
                     GameEventFactory<object>.CreateGameEventForAllProcessors(
                         GameEventType.WindowEvent, this, "CLOSE_WINDOW", "", ""));
-                break;
-            case "KEY_RIGHT":
-                eventBus.RegisterEvent(
-                        GameEventFactory<object>.CreateGameEventForAllProcessors(
-                            GameEventType.PlayerEvent, this, "MOVE_RIGHT", "", ""));
-                break;
-            case "KEY_LEFT":
-                eventBus.RegisterEvent(
-                    GameEventFactory<object>.CreateGameEventForAllProcessors(
-                        GameEventType.PlayerEvent, this, "MOVE_LEFT", "", ""));
-                break;
-            case "KEY_SPACE":
-                eventBus.RegisterEvent(
-                    GameEventFactory<object>.CreateGameEventForAllProcessors(
-                        GameEventType.PlayerEvent, this, "SHOOT", "", ""));
-                break;
-            
+                break;           
             }
         }
         
@@ -230,12 +200,7 @@ namespace Galaga_Exercise_3 {
         /// <param name="key"></param>
         public void KeyRelease(string key) {
             switch (key) {
-            case "KEY_RIGHT":
-            case "KEY_LEFT":
-                eventBus.RegisterEvent(
-                    GameEventFactory<object>.CreateGameEventForAllProcessors(
-                        GameEventType.PlayerEvent, this, "MOVE_STOP", "", ""));
-                break;
+
             }
         }
         
@@ -255,9 +220,10 @@ namespace Galaga_Exercise_3 {
                 switch (gameEvent.Parameter1) {
                 case "KEY_PRESS":
                     KeyPress(gameEvent.Message);
+                    player.KeyPress(gameEvent.Message);
                     break;
                 case "KEY_RELEASE":
-                    KeyRelease(gameEvent.Message);
+                    player.KeyRelease(gameEvent.Message);
                     break;
                 }
             }
