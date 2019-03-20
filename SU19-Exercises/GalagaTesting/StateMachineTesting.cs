@@ -38,7 +38,30 @@ namespace Galaga_Testing {
             GalagaBus.GetBus().ProcessEventsSequentially();
             Assert.That(stateMachine.ActiveState, Is.InstanceOf<GamePaused>());
         }
-
+        
+        [Test]
+        public void TestEventGameRunning() {
+            GalagaBus.GetBus().RegisterEvent(
+                GameEventFactory<object>.CreateGameEventForAllProcessors(
+                    GameEventType.GameStateEvent,
+                    this,
+                    "CHANGE_STATE",
+                    "GAME_RUNNING", ""));
+            GalagaBus.GetBus().ProcessEventsSequentially();
+            Assert.That(stateMachine.ActiveState, Is.InstanceOf<GameRunning>());
+        }
+        
+        [Test]
+        public void TestEventMainMenu() {
+            GalagaBus.GetBus().RegisterEvent(
+                GameEventFactory<object>.CreateGameEventForAllProcessors(
+                    GameEventType.GameStateEvent,
+                    this,
+                    "CHANGE_STATE",
+                    "MAIN_MENU", ""));
+            GalagaBus.GetBus().ProcessEventsSequentially();
+            Assert.That(stateMachine.ActiveState, Is.InstanceOf<MainMenu>());
+        }
         
     }
     
