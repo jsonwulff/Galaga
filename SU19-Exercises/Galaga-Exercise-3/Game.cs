@@ -9,7 +9,7 @@ using DIKUArcade.Physics;
 using DIKUArcade.Timers;
 using Galaga_Exercise_3.GalagaEntities;
 using Galaga_Exercise_3.GalagaStates;
-using Galaga_Exercise_3.MovementStategy;
+using Galaga_Exercise_3.MovementStrategy;
 using Galaga_Exercise_3.Squadrons;
 
 namespace Galaga_Exercise_3 {

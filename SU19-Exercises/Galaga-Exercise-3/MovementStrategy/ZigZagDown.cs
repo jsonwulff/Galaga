@@ -3,8 +3,8 @@ using DIKUArcade.Entities;
 using DIKUArcade.Math;
 using Galaga_Exercise_3.GalagaEntities;
 
-namespace Galaga_Exercise_3.MovementStategy {
-    public class ZigZagDown {
+namespace Galaga_Exercise_3.MovementStrategy {
+    public class ZigZagDown : IMovementStrategy {
         private float speed = -0.0003f;
         private float p = 0.045f;
         private float a = 0.05f;

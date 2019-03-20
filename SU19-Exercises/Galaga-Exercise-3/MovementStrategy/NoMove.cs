@@ -2,10 +2,10 @@ using DIKUArcade.Entities;
 using DIKUArcade.Math;
 using Galaga_Exercise_3.GalagaEntities;
 
-namespace Galaga_Exercise_3.MovementStategy {
-    public class Down {
+namespace Galaga_Exercise_3.MovementStrategy {
+    public class NoMove : IMovementStrategy {
         public void MoveEnemy(Enemy enemy) {
-            enemy.Direction(new Vec2F(0.0f,-0.0003f));
+            enemy.Direction(new Vec2F(0.0f,0.0f));
             enemy.Move();
         }
 
