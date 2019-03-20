@@ -55,12 +55,14 @@ namespace Galaga_Exercise_3 {
             eventBus.InitializeEventBus(new List<GameEventType> {
                 GameEventType.InputEvent, // key press / key release
                 GameEventType.WindowEvent, // messages to the window
-                GameEventType.PlayerEvent
+                GameEventType.PlayerEvent,
+                GameEventType.GameStateEvent
             });
             win.RegisterEventBus(eventBus);
             eventBus.Subscribe(GameEventType.InputEvent, this);
             eventBus.Subscribe(GameEventType.WindowEvent, this);
             eventBus.Subscribe(GameEventType.PlayerEvent, player);
+            eventBus.Subscribe(GameEventType.PlayerEvent, stateMachine);
             
             enemyStrides = ImageStride.CreateStrides(4,
                 Path.Combine("Assets", "Images", "BlueMonster.png"));
