@@ -7,22 +7,20 @@ using NUnit.Framework.Internal;
 
 namespace Galaga_Testing {
     [TestFixture]
-    public class StateMachineTesting {
+    public class StateMachineTesting{
         private StateMachine stateMachine;
+        //private GameEventBus<object> eventBus;
         
         [SetUp]
         public void InitiateStateMachine() {
-            DIKUArcade.Window.CreateOpenGLContext();
-            // Here you should:
-            // (1) Initialize a GalagaBus with proper GameEventTypes
-            GalagaBus.GetBus().InitializeEventBus(new List<GameEventType>( {
-                    GameEventType.GameStateEvent
-                });
-            // (2) Instantiate the StateMachine
-            stateMachine = new StateMachine();
-            // (3) Subscribe the GalagaBus to proper GameEventTypes
-            //     and GameEventProcessors
-
+            DIKUArcade.Window.CreateOpenGLContext();       
+            GalagaBus.GetBus().InitializeEventBus(new List<GameEventType> {
+                GameEventType.GameStateEvent,
+                GameEventType.InputEvent
+                
+            });
+            stateMachine = new StateMachine(); 
+            GalagaBus.GetBus().Subscribe(GameEventType.GameStateEvent, stateMachine);
         }
         
         [Test]
@@ -40,7 +38,8 @@ namespace Galaga_Testing {
             GalagaBus.GetBus().ProcessEventsSequentially();
             Assert.That(stateMachine.ActiveState, Is.InstanceOf<GamePaused>());
         }
-        
+
         
     }
+    
 }
