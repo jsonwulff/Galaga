@@ -32,7 +32,7 @@ namespace Galaga_Exercise_3.GalagaStates {
         }
 
         public void GameLoop() {
-            RenderState();
+            throw new System.NotImplementedException();
         }
 
         public void InitializeGameState() {
@@ -86,7 +86,6 @@ namespace Galaga_Exercise_3.GalagaStates {
         }
         
         public void KeyPress(string key) {
-            Console.WriteLine("Keypres in main menu");
             switch (key) {
             case "KEY_UP":
                 activeMenuButton += 1;
@@ -104,7 +103,6 @@ namespace Galaga_Exercise_3.GalagaStates {
         }
         
         public void HandleKeyEvent(string keyValue, string keyAction) {
-            Console.WriteLine("HandlekeyEvent");
             switch (keyAction) {
                 case "KEY_PRESS":
                     KeyPress(keyValue);

@@ -54,16 +54,16 @@ namespace Galaga_Exercise_3 {
         /// <summary>
         /// Instantiates playerShot at the players gun's position.
         /// </summary>
-        public void Shoot() {
-            gameRunning.playerShots.Add(
-                new PlayerShot(game,
-                    new DynamicShape(
-                        new Vec2F(
-                            entity.Shape.Position.X+entity.Shape.Extent.X/2, 
-                            this.entity.Shape.Position.Y+entity.Shape.Extent.Y),
-                        new Vec2F(0.008f, 0.027f)),
-                    gameRunning.playerShotImage));
-        }
+//        public void Shoot() {
+//            gameRunning.playerShots.Add(
+//                new PlayerShot(game,
+//                    new DynamicShape(
+//                        new Vec2F(
+//                            entity.Shape.Position.X+entity.Shape.Extent.X/2, 
+//                            this.entity.Shape.Position.Y+entity.Shape.Extent.Y),
+//                        new Vec2F(0.008f, 0.027f)),
+//                    gameRunning.playerShotImage));
+//        }
         
         public void KeyPress(string key) {
             switch (key) {
@@ -111,9 +111,9 @@ namespace Galaga_Exercise_3 {
                 case "MOVE_STOP":
                     MoveStop();
                     break;
-                case "SHOOT":
-                    Shoot();
-                    break;
+//                case "SHOOT":
+//                    Shoot();
+//                    break;
             }
         }
     }

@@ -44,6 +44,7 @@ namespace Galaga_Exercise_3 {
             eventBus.Subscribe(GameEventType.InputEvent, this);
             eventBus.Subscribe(GameEventType.WindowEvent, this);
             eventBus.Subscribe(GameEventType.PlayerEvent, stateMachine);
+            eventBus.Subscribe(GameEventType.GameStateEvent, stateMachine);
             
         }
       
@@ -108,7 +109,6 @@ namespace Galaga_Exercise_3 {
             } else if (eventType == GameEventType.InputEvent) {
                 switch (gameEvent.Parameter1) {
                 case "KEY_PRESS":
-                    Console.WriteLine("keyPress");
                     stateMachine.ActiveState.HandleKeyEvent(gameEvent.Message, gameEvent.Parameter1);
                     KeyPress(gameEvent.Message);
                     break;
