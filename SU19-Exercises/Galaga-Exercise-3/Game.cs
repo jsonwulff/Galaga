@@ -1,17 +1,8 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
 using DIKUArcade;
-using DIKUArcade.Entities;
 using DIKUArcade.EventBus;
-using DIKUArcade.Graphics;
-using DIKUArcade.Math;
-using DIKUArcade.Physics;
 using DIKUArcade.Timers;
-using Galaga_Exercise_3.GalagaEntities;
-using Galaga_Exercise_3.GalagaStates;
-using Galaga_Exercise_3.MovementStrategy;
-using Galaga_Exercise_3.Squadrons;
+
 
 namespace Galaga_Exercise_3 {
     public class Game : IGameEventProcessor<object> {
