@@ -40,11 +40,11 @@ namespace Galaga_Exercise_3.GalagaStates {
             menuButtons = new Text[maxMenuButtons];
             activeMenuButton = 0;
             newGame = new Text("New Game",
-                new Vec2F(0.5f, 0.5f), 
-                new Vec2F(0.2f, 0.2f));
+                new Vec2F(0.25f, 0.4f), 
+                new Vec2F(0.5f, 0.5f));
             quit = new Text(
-                "Quit", new Vec2F(0.5f, 0.3f), 
-                new Vec2F(0.2f, 0.2f));
+                "Quit", new Vec2F(0.25f, 0.2f), 
+                new Vec2F(0.5f, 0.5f));
             menuButtons[0] = newGame;
             menuButtons[1] = quit;
             
@@ -67,7 +67,7 @@ namespace Galaga_Exercise_3.GalagaStates {
 
         public void HandleButtons() {
             foreach (var button in menuButtons) {
-                button.SetColor(inactiveColor);                
+                button.SetColor(inactiveColor);    
             }
             menuButtons[Math.Abs(activeMenuButton % maxMenuButtons)].SetColor(activeColor);
             RenderState();
