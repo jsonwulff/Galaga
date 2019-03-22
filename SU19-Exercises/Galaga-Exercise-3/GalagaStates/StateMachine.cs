@@ -17,6 +17,7 @@ namespace Galaga_Exercise_3 {
         private void SwitchState(GameStateType stateType) {
             switch (stateType) {
             case (GameStateType.GameRunning):
+                Console.WriteLine("gameRunning");
                 ActiveState = GameRunning.GetInstance();
                 break;
             case (GameStateType.GamePaused):

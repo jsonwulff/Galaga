@@ -46,12 +46,12 @@ namespace Galaga_Exercise_3.GalagaStates {
             
             activeColor = new Vec3I(255,255,255);
             inactiveColor = new Vec3I(190,190,190);
+            HandleButtons();
 
         }
 
         public void UpdateGameLogic() {
             MainMenu.GetInstance();
-            HandleButtons();
         }
 
         public void RenderState() {
@@ -67,6 +67,7 @@ namespace Galaga_Exercise_3.GalagaStates {
                 button.SetColor(inactiveColor);                
             }
             menuButtons[activeMenuButton % maxMenuButtons].SetColor(activeColor);
+            RenderState();
         }
 
         public void ActivateButton() {
@@ -74,7 +75,7 @@ namespace Galaga_Exercise_3.GalagaStates {
             case 0:
                 GalagaBus.GetBus().RegisterEvent(
                     GameEventFactory<object>.CreateGameEventForAllProcessors(
-                        GameEventType.WindowEvent, this, "CHANGE_STATE", "GAME_RUNNING", ""));
+                        GameEventType.GameStateEvent, this, "CHANGE_STATE", "GAME_RUNNING", ""));
                 break;
             case 1:
                 GalagaBus.GetBus().RegisterEvent(
@@ -88,15 +89,16 @@ namespace Galaga_Exercise_3.GalagaStates {
             Console.WriteLine("Keypres in main menu");
             switch (key) {
             case "KEY_UP":
-                Console.WriteLine("Key Up");
                 activeMenuButton += 1;
+                HandleButtons();
                 break;
             case "KEY_DOWN":
-                Console.WriteLine("Key Down");
                 activeMenuButton += 1;
+                HandleButtons();
                 break;
             case "KEY_ENTER":
                 ActivateButton();
+                HandleButtons();
                 break;
             }
         }
