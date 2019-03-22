@@ -1,5 +1,6 @@
 using System.IO;
 using DIKUArcade.Entities;
+using DIKUArcade.EventBus;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.State;
@@ -14,7 +15,7 @@ namespace Galaga_Exercise_3.GalagaStates {
         private int maxMenuButtons;
 
         public MainMenu() {
-            backGroundImage = new Entity(new StationaryShape(new Vec2F(0,0), new Vec2F(1,1) ), new Image(Path.Combine("Assets",  "Images", "TitleImage.png")));
+            backGroundImage = new Entity(new StationaryShape(new Vec2F(0,0), new Vec2F(1,1) ), new Image(Path.Combine( "Assets",  "Images", "TitleImage.png")));
         }
         
         public static MainMenu GetInstance() {
@@ -38,7 +39,14 @@ namespace Galaga_Exercise_3.GalagaStates {
         }
 
         public void HandleKeyEvent(string keyValue, string keyAction) {
-            throw new System.NotImplementedException();
+            switch (keyAction) {
+                case "KEY_PRESS":
+                    
+                    break;
+                case "KEY_RELEASE":
+                    
+                    break;
+            }
         }
     }
 }

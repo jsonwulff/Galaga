@@ -1,7 +1,8 @@
 using DIKUArcade.EventBus;
 using DIKUArcade.State;
+using Galaga_Exercise_3.GalagaStates;
 
-namespace Galaga_Exercise_3.GalagaStates {
+namespace Galaga_Exercise_3 {
     public class StateMachine : IGameEventProcessor<object> {
         public IGameState ActiveState { get; private set; }
 
@@ -33,6 +34,8 @@ namespace Galaga_Exercise_3.GalagaStates {
                     SwitchState(StateTransformer.TransformStringToState(gameEvent.Parameter1));
                     break;
                 }
+            } else if (eventType == GameEventType.InputEvent) {
+                ActiveState.HandleKeyEvent(gameEvent.Parameter1,gameEvent.Message);
             }
         }
     }
