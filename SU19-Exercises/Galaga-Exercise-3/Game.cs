@@ -11,7 +11,6 @@ namespace Galaga_Exercise_3 {
 
         private StateMachine stateMachine;
         
-        
         public GameEventBus<object> eventBus;
         
         /// <summary>
@@ -23,7 +22,6 @@ namespace Galaga_Exercise_3 {
             
             stateMachine = new StateMachine();
             
-            
             eventBus = GalagaBus.GetBus();
             eventBus.InitializeEventBus(new List<GameEventType> {
                 GameEventType.InputEvent, // key press / key release
@@ -32,11 +30,10 @@ namespace Galaga_Exercise_3 {
                 GameEventType.GameStateEvent
             });
             win.RegisterEventBus(eventBus);
-            eventBus.Subscribe(GameEventType.InputEvent, this);
             eventBus.Subscribe(GameEventType.WindowEvent, this);
             eventBus.Subscribe(GameEventType.PlayerEvent, stateMachine);
             eventBus.Subscribe(GameEventType.GameStateEvent, stateMachine);
-            
+            eventBus.Subscribe(GameEventType.InputEvent, stateMachine);          
         }
       
         /// <summary>
@@ -51,14 +48,11 @@ namespace Galaga_Exercise_3 {
                     win.PollEvents();
                     eventBus.ProcessEvents();
                     stateMachine.ActiveState.UpdateGameLogic();
-                    
                 }
 
                 if (gameTimer.ShouldRender()) {
                     win.Clear();
-
-                    stateMachine.ActiveState.RenderState();
-                    
+                    stateMachine.ActiveState.RenderState();                 
                     win.SwapBuffers();
                 }
                 
@@ -71,21 +65,6 @@ namespace Galaga_Exercise_3 {
         }
 
         /// <summary>
-        /// KeyPress handles logic for a given key sent by ProcessEvent. 
-        /// </summary>
-        /// <param name="key"></param>
-        public void KeyPress(string key) {
-            switch (key) {
-            case "KEY_ESCAPE":
-                eventBus.RegisterEvent(
-                    GameEventFactory<object>.CreateGameEventForAllProcessors(
-                        GameEventType.WindowEvent, this, "CLOSE_WINDOW", "", ""));
-                break;
-            }
-        }
-
-
-        /// <summary>
         /// ProcessEvent is the handler for keypresses on during runtime. It broadcasts GameEvents.
         /// </summary>
         /// <param name="eventType"></param>
@@ -95,12 +74,6 @@ namespace Galaga_Exercise_3 {
                 switch (gameEvent.Message) {
                 case "CLOSE_WINDOW":
                     win.CloseWindow();
-                    break;
-                }
-            } else if (eventType == GameEventType.InputEvent) {
-                switch (gameEvent.Parameter1) {
-                case "KEY_PRESS":
-                    stateMachine.ActiveState.HandleKeyEvent(gameEvent.Message, gameEvent.Parameter1);
                     break;
                 }
             }

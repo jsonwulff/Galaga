@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using DIKUArcade.Entities;
 using DIKUArcade.EventBus;
@@ -62,12 +63,12 @@ namespace Galaga_Exercise_3.GalagaStates {
             foreach (var button in menuButtons) {
                 button.SetColor(inactiveColor);                
             }
-            menuButtons[activeMenuButton % maxMenuButtons].SetColor(activeColor);
+            menuButtons[Math.Abs(activeMenuButton % maxMenuButtons)].SetColor(activeColor);
             RenderState();
         }
 
         public void ActivateButton() {
-            switch (activeMenuButton % maxMenuButtons) {
+            switch (Math.Abs(activeMenuButton % maxMenuButtons)) {
             case 0:
                 GalagaBus.GetBus().RegisterEvent(
                     GameEventFactory<object>.CreateGameEventForAllProcessors(
@@ -85,7 +86,7 @@ namespace Galaga_Exercise_3.GalagaStates {
         public void KeyPress(string key) {
             switch (key) {
             case "KEY_UP":
-                activeMenuButton += 1;
+                activeMenuButton -= 1;
                 HandleButtons();
                 break;
             case "KEY_DOWN":
@@ -103,8 +104,6 @@ namespace Galaga_Exercise_3.GalagaStates {
             switch (keyAction) {
                 case "KEY_PRESS":
                     KeyPress(keyValue);
-                    break;
-                case "KEY_RELEASE":
                     break;
             }
         }

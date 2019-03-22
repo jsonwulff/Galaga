@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using DIKUArcade.Entities;
 using DIKUArcade.EventBus;
@@ -32,18 +33,24 @@ namespace Galaga_Exercise_3.GalagaStates {
         }
 
         public void InitializeGameState() {
-            activeMenuButton = 0;
-            backGroundImage = new Entity(new StationaryShape(new Vec2F(0,0), new Vec2F(1,1) ), new Image(Path.Combine( "Assets",  "Images", "TitleImage.png")));
+            backGroundImage = new Entity(
+                new StationaryShape(new Vec2F(0,0), new Vec2F(1,1) ), 
+                new Image(Path.Combine( "Assets",  "Images", "TitleImage.png")));
             menuButtons = new Text[maxMenuButtons];
-            newGame = new Text("New Game", new Vec2F(0.5f, 0.5f), new Vec2F(0.2f, 0.2f));
-            quit = new Text("Quit", new Vec2F(0.5f, 0.3f), new Vec2F(0.2f, 0.2f));
+            activeMenuButton = 0;
+            newGame = new Text("New Game",
+                new Vec2F(0.5f, 0.5f), 
+                new Vec2F(0.2f, 0.2f));
+            quit = new Text(
+                "Quit", new Vec2F(0.5f, 0.3f), 
+                new Vec2F(0.2f, 0.2f));
             menuButtons[0] = newGame;
             menuButtons[1] = quit;
             
             activeColor = new Vec3I(255,255,255);
-            inactiveColor = new Vec3I(190,190,190);
+            inactiveColor = new Vec3I(100,100,100);
+            
             HandleButtons();
-
         }
 
         public void UpdateGameLogic() {
@@ -55,19 +62,18 @@ namespace Galaga_Exercise_3.GalagaStates {
             foreach (var button in menuButtons) {
                 button.RenderText();
             }
-
         }
 
         public void HandleButtons() {
             foreach (var button in menuButtons) {
                 button.SetColor(inactiveColor);                
             }
-            menuButtons[activeMenuButton % maxMenuButtons].SetColor(activeColor);
+            menuButtons[Math.Abs(activeMenuButton % maxMenuButtons)].SetColor(activeColor);
             RenderState();
         }
 
         public void ActivateButton() {
-            switch (activeMenuButton % maxMenuButtons) {
+            switch (Math.Abs(activeMenuButton % maxMenuButtons)) {
             case 0:
                 GalagaBus.GetBus().RegisterEvent(
                     GameEventFactory<object>.CreateGameEventForAllProcessors(
@@ -80,11 +86,11 @@ namespace Galaga_Exercise_3.GalagaStates {
                 break;
             }
         }
-        
+
         public void KeyPress(string key) {
             switch (key) {
             case "KEY_UP":
-                activeMenuButton += 1;
+                activeMenuButton -= 1;
                 HandleButtons();
                 break;
             case "KEY_DOWN":
@@ -93,17 +99,14 @@ namespace Galaga_Exercise_3.GalagaStates {
                 break;
             case "KEY_ENTER":
                 ActivateButton();
-                HandleButtons();
                 break;
             }
         }
-        
+
         public void HandleKeyEvent(string keyValue, string keyAction) {
             switch (keyAction) {
                 case "KEY_PRESS":
                     KeyPress(keyValue);
-                    break;
-                case "KEY_RELEASE":
                     break;
             }
         }
