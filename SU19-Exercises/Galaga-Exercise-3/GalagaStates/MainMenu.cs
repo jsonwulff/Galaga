@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -23,17 +24,7 @@ namespace Galaga_Exercise_3.GalagaStates {
         private Vec3I inactiveColor;
 
         public MainMenu() {
-            activeMenuButton = 0;
-            backGroundImage = new Entity(new StationaryShape(new Vec2F(0,0), new Vec2F(1,1) ), new Image(Path.Combine( "Assets",  "Images", "TitleImage.png")));
-            menuButtons = new Text[maxMenuButtons];
-            newGame = new Text("New Game", new Vec2F(1, 1), new Vec2F(1, 1));
-            quit = new Text("Quit", new Vec2F(1, 1), new Vec2F(1, 1));
-            menuButtons.Append(newGame);
-            menuButtons.Append(quit);
-            
-            activeColor = new Vec3I(255,255,255);
-            inactiveColor = new Vec3I(190,190,190);
-            
+            InitializeGameState();
         }
         
         public static MainMenu GetInstance() {
@@ -45,17 +36,31 @@ namespace Galaga_Exercise_3.GalagaStates {
         }
 
         public void InitializeGameState() {
-            throw new System.NotImplementedException();
+            activeMenuButton = 0;
+            backGroundImage = new Entity(new StationaryShape(new Vec2F(0,0), new Vec2F(1,1) ), new Image(Path.Combine( "Assets",  "Images", "TitleImage.png")));
+            menuButtons = new Text[maxMenuButtons];
+            newGame = new Text("New Game", new Vec2F(0.5f, 0.5f), new Vec2F(0.2f, 0.2f));
+            quit = new Text("Quit", new Vec2F(0.5f, 0.3f), new Vec2F(0.2f, 0.2f));
+            menuButtons[0] = newGame;
+            menuButtons[1] = quit;
+            
+            activeColor = new Vec3I(255,255,255);
+            inactiveColor = new Vec3I(190,190,190);
+
         }
 
         public void UpdateGameLogic() {
-            foreach (var button in menuButtons) {
-                button.RenderText();
-            }
+            MainMenu.GetInstance();
+            ActivateButton();
+            HandleButtons();
         }
 
         public void RenderState() {
             backGroundImage.RenderEntity();
+            foreach (var button in menuButtons) {
+                button.RenderText();
+            }
+
         }
 
         public void HandleButtons() {
@@ -82,7 +87,8 @@ namespace Galaga_Exercise_3.GalagaStates {
         
         public void KeyPress(string key) {
             switch (key) {
-            case "KEY_UP":
+            case "KEY_LEFT":
+                Console.WriteLine("up");
                 activeMenuButton -= 1;
                 HandleButtons();
                 break;
@@ -106,6 +112,7 @@ namespace Galaga_Exercise_3.GalagaStates {
         }
         
         public void HandleKeyEvent(string keyValue, string keyAction) {
+            Console.WriteLine("HandlekeyEvent");
             switch (keyAction) {
                 case "KEY_PRESS":
                     KeyPress(keyValue);

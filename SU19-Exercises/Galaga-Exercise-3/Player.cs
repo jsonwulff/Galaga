@@ -2,16 +2,19 @@ using DIKUArcade.Entities;
 using DIKUArcade.EventBus;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
+using Galaga_Exercise_3.GalagaStates;
 
 namespace Galaga_Exercise_3 {
     public class Player : IGameEventProcessor<object> {
         private Game game;
-
+        private GameRunning gameRunning;
         public Entity entity { get; private set; }
 
         public Player(Game game, DynamicShape shape, IBaseImage image) {
             this.game = game;
             entity = new Entity(shape, image);
+            GalagaBus.GetBus().Subscribe(GameEventType.PlayerEvent, this);
+            gameRunning = GameRunning.GetInstance();
         }
         
         // <summary>
@@ -52,30 +55,30 @@ namespace Galaga_Exercise_3 {
         /// Instantiates playerShot at the players gun's position.
         /// </summary>
         public void Shoot() {
-            game.playerShots.Add(
+            gameRunning.playerShots.Add(
                 new PlayerShot(game,
                     new DynamicShape(
                         new Vec2F(
                             entity.Shape.Position.X+entity.Shape.Extent.X/2, 
                             this.entity.Shape.Position.Y+entity.Shape.Extent.Y),
                         new Vec2F(0.008f, 0.027f)),
-                    game.playerShotImage));
+                    gameRunning.playerShotImage));
         }
         
         public void KeyPress(string key) {
             switch (key) {
             case "KEY_RIGHT":
-               game.eventBus.RegisterEvent(
+                GalagaBus.GetBus().RegisterEvent(
                     GameEventFactory<object>.CreateGameEventForAllProcessors(
                         GameEventType.PlayerEvent, this, "MOVE_RIGHT", "", ""));
                 break;
             case "KEY_LEFT":
-                game.eventBus.RegisterEvent(
+                GalagaBus.GetBus().RegisterEvent(
                     GameEventFactory<object>.CreateGameEventForAllProcessors(
                         GameEventType.PlayerEvent, this, "MOVE_LEFT", "", ""));
                 break;
             case "KEY_SPACE":
-                game.eventBus.RegisterEvent(
+                GalagaBus.GetBus().RegisterEvent(
                     GameEventFactory<object>.CreateGameEventForAllProcessors(
                         GameEventType.PlayerEvent, this, "SHOOT", "", ""));
                 break;
@@ -87,7 +90,7 @@ namespace Galaga_Exercise_3 {
             switch (key) {
             case "KEY_RIGHT":
             case "KEY_LEFT":
-                game.eventBus.RegisterEvent(
+                GalagaBus.GetBus().RegisterEvent(
                     GameEventFactory<object>.CreateGameEventForAllProcessors(
                         GameEventType.PlayerEvent, this, "MOVE_STOP", "", ""));
                 break;
