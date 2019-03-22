@@ -25,6 +25,10 @@ namespace Galaga_Exercise_3.GalagaStates {
         public static GameRunning GetInstance() {
             return GameRunning.instance ?? (GameRunning.instance = new GameRunning());
         }
+        
+        public static GameRunning NewInstance() {
+            return GameRunning.instance = new GameRunning();
+        }
 
         public void GameLoop() {
             throw new System.NotImplementedException();
