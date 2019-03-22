@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.IO;
 using DIKUArcade.Entities;
 using DIKUArcade.EventBus;
 using DIKUArcade.Graphics;
@@ -8,11 +10,16 @@ namespace Galaga_Exercise_3 {
     public class Player : IGameEventProcessor<object> {
 
         public Entity entity { get; private set; }
+        public List<PlayerShot> PlayerShots { get; private set; }
+        public Image PlayerShotImage;
 
         public Player(DynamicShape shape, IBaseImage image) {
             //this.game = game;
-            entity = new Entity(shape, image);
             GalagaBus.GetBus().Subscribe(GameEventType.PlayerEvent, this);
+            entity = new Entity(shape, image);
+            PlayerShots = new List<PlayerShot>();
+            PlayerShotImage = new Image(
+                Path.Combine("Assets", "Images", "BulletRed2.png"));
         }
         
         // <summary>
@@ -52,37 +59,33 @@ namespace Galaga_Exercise_3 {
         /// <summary>
         /// Instantiates playerShot at the players gun's position.
         /// </summary>
-//        public void Shoot() {
-//            gameRunning.playerShots.Add(
-//                new PlayerShot(game,
-//                    new DynamicShape(
-//                        new Vec2F(
-//                            entity.Shape.Position.X+entity.Shape.Extent.X/2, 
-//                            this.entity.Shape.Position.Y+entity.Shape.Extent.Y),
-//                        new Vec2F(0.008f, 0.027f)),
-//                    gameRunning.playerShotImage));
-//        }
-        
-        public void KeyPress(string key) {
-            switch (key) {
-//            case "KEY_RIGHT":
-//                GalagaBus.GetBus().RegisterEvent(
-//                    GameEventFactory<object>.CreateGameEventForAllProcessors(
-//                        GameEventType.PlayerEvent, this, "MOVE_RIGHT", "", ""));
-//                break;
-//            case "KEY_LEFT":
-//                GalagaBus.GetBus().RegisterEvent(
-//                    GameEventFactory<object>.CreateGameEventForAllProcessors(
-//                        GameEventType.PlayerEvent, this, "MOVE_LEFT", "", ""));
-//                break;
-            case "KEY_SPACE":
-                GalagaBus.GetBus().RegisterEvent(
-                    GameEventFactory<object>.CreateGameEventForAllProcessors(
-                        GameEventType.PlayerEvent, this, "SHOOT", "", ""));
-                break;
-            
-            }
+        public void Shoot() {
+            PlayerShots.Add(
+                new PlayerShot(
+                    new DynamicShape(new Vec2F(
+                            entity.Shape.Position.X+entity.Shape.Extent.X/2, 
+                            this.entity.Shape.Position.Y+entity.Shape.Extent.Y),
+                        new Vec2F(0.008f, 0.027f)), PlayerShotImage
+                    ));
         }
+
+        public void IterateShots() {
+            foreach (PlayerShot shot in PlayerShots) {
+                shot.Shape.Move();
+                if (shot.Shape.Position.Y > 1.0f) {
+                    shot.DeleteEntity();
+                }
+            }
+            var newShot = new List<PlayerShot>();
+            foreach (var shot in PlayerShots) {
+                if (!shot.IsDeleted()) {
+                    newShot.Add(shot);
+                }
+            }
+
+            PlayerShots = newShot;
+        }
+
         public void ProcessEvent(GameEventType eventType, GameEvent<object> gameEvent) {
             if (eventType != GameEventType.PlayerEvent) {
                 return;
@@ -97,9 +100,9 @@ namespace Galaga_Exercise_3 {
                 case "MOVE_STOP":
                     MoveStop();
                     break;
-//                case "SHOOT":
-//                    Shoot();
-//                    break;
+                case "SHOOT":
+                    Shoot();
+                    break;
             }
         }
     }

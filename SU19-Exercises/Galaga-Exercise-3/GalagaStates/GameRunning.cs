@@ -4,6 +4,7 @@ using DIKUArcade.Entities;
 using DIKUArcade.EventBus;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
+using DIKUArcade.Physics;
 using DIKUArcade.State;
 using Galaga_Exercise_3.GalagaEntities;
 using Galaga_Exercise_3.MovementStrategy;
@@ -21,9 +22,16 @@ namespace Galaga_Exercise_3.GalagaStates {
         private List<Image> enemyStrides;
         private Row row;
         private ZigZagDown movementStrategy;
-
+        
+        private List<Image> explosionStrides;
+        private AnimationContainer explosions;
+        private int explosionLength = 500;
+        
+        private Score score;
+        
         private GameRunning() {
             InitializeGameState();
+            
         }
 
         public static GameRunning GetInstance() {
@@ -51,20 +59,57 @@ namespace Galaga_Exercise_3.GalagaStates {
             row = new Row();
             movementStrategy = new ZigZagDown();
             
+            explosionStrides = ImageStride.CreateStrides(8,
+                Path.Combine("Assets", "Images", "Explosion.png"));
+            explosions = new AnimationContainer(4);
+            score = new Score(new Vec2F(0.01f, -0.25f), new Vec2F(0.3f, 0.3f));
+            
+            
             row.CreateEnemies(enemyStrides);
+            
+            
 
         }
 
         public void UpdateGameLogic() {
             player.Move();
             movementStrategy.MoveEnemies(row.Enemies);
+            player.IterateShots();
         }
         
         public void RenderState() {
             backGroundImage.RenderEntity();
             player.entity.RenderEntity();
             row.Enemies.Iterate(entity => entity.RenderEntity());
+            explosions.RenderAnimations();
+            
+            foreach (var shot in player.PlayerShots) {
+                shot.RenderEntity();
+                
+                foreach (Enemy enemy in row.Enemies) {
+                    var shotHit = CollisionDetection.Aabb(shot.Shape.AsDynamicShape(), enemy.Shape);
+                    if (shotHit.Collision) {
+                        AddExplosion(enemy.Shape.Position.X, enemy.Shape.Position.Y, 
+                            enemy.Shape.Extent.X, enemy.Shape.Extent.Y);
+                        shot.DeleteEntity();
+                        enemy.DeleteEntity();
+                        score.AddPoint(100);
+                    }
+                }
+            }
+            
+            score.RenderScore();
         }
+        
+        
+        public void AddExplosion(float posX, float posY,
+            float extentX, float extentY) {
+            explosions.AddAnimation(
+                new StationaryShape(posX, posY, extentX, extentY), explosionLength,
+                new ImageStride(explosionLength / 8, explosionStrides));
+        }
+        
+        
         
         public void KeyPress(string key) {
             switch (key) {
@@ -77,6 +122,11 @@ namespace Galaga_Exercise_3.GalagaStates {
                 GalagaBus.GetBus().RegisterEvent(
                     GameEventFactory<object>.CreateGameEventForAllProcessors(
                         GameEventType.PlayerEvent, this, "MOVE_LEFT", "", ""));
+                break;
+            case "KEY_SPACE":
+                GalagaBus.GetBus().RegisterEvent(
+                    GameEventFactory<object>.CreateGameEventForAllProcessors(
+                        GameEventType.PlayerEvent, this, "SHOOT", "", ""));
                 break;
             case "KEY_ESCAPE":
                 GalagaBus.GetBus().RegisterEvent(
