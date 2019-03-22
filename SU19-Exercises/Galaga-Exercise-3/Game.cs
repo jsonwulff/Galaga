@@ -20,7 +20,6 @@ namespace Galaga_Exercise_3 {
             win = new Window("Galaga", 500, 500);
             gameTimer = new GameTimer(60, 60);
             
-            stateMachine = new StateMachine();
             
             eventBus = GalagaBus.GetBus();
             eventBus.InitializeEventBus(new List<GameEventType> {
@@ -31,9 +30,7 @@ namespace Galaga_Exercise_3 {
             });
             win.RegisterEventBus(eventBus);
             eventBus.Subscribe(GameEventType.WindowEvent, this);
-            eventBus.Subscribe(GameEventType.PlayerEvent, stateMachine);
-            eventBus.Subscribe(GameEventType.GameStateEvent, stateMachine);
-            eventBus.Subscribe(GameEventType.InputEvent, stateMachine);          
+            stateMachine = new StateMachine();
         }
       
         /// <summary>

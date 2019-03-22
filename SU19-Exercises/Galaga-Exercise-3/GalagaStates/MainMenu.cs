@@ -33,6 +33,7 @@ namespace Galaga_Exercise_3.GalagaStates {
         }
 
         public void InitializeGameState() {
+            
             backGroundImage = new Entity(
                 new StationaryShape(new Vec2F(0,0), new Vec2F(1,1) ), 
                 new Image(Path.Combine( "Assets",  "Images", "TitleImage.png")));

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using DIKUArcade.EventBus;
 using DIKUArcade.State;
 using Galaga_Exercise_3.GalagaStates;
@@ -7,10 +6,11 @@ namespace Galaga_Exercise_3 {
     public class StateMachine : IGameEventProcessor<object> {
         public IGameState ActiveState { get; private set; }
         
-        private static GameEventBus<object> eventBus;
-        
         public StateMachine() {
             ActiveState = MainMenu.GetInstance();
+            
+            GalagaBus.GetBus().Subscribe(GameEventType.GameStateEvent, this);
+            GalagaBus.GetBus().Subscribe(GameEventType.InputEvent, this);
         }
 
         private void SwitchState(GameStateType stateType) {
