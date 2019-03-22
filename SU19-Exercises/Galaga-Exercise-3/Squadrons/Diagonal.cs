@@ -9,8 +9,8 @@ namespace Galaga_Exercise_3.Squadrons {
         private Game game;
         public EntityContainer<Enemy> Enemies { get; }
         public int MaxEnemies { get; }
-        public Diagonal(Game game) {
-            this.game = game;
+        public Diagonal() {
+            
             MaxEnemies = 4;
             Enemies = new EntityContainer<Enemy>();
         }
@@ -18,7 +18,7 @@ namespace Galaga_Exercise_3.Squadrons {
 
         public void CreateEnemies(List<Image> enemyStrides) {
             for (var i = 0; i < MaxEnemies; i++) {
-                Enemies.AddDynamicEntity(new Enemy(game,
+                Enemies.AddDynamicEntity(new Enemy(
                     new DynamicShape(new Vec2F(i * 0.1f + 0.3f, 0.90f - i * 0.1f), new Vec2F(0.1f, 0.1f)),
                     new ImageStride(80, enemyStrides)));
             }

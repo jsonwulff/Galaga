@@ -10,8 +10,8 @@ namespace Galaga_Exercise_3.Squadrons {
         public EntityContainer<Enemy> Enemies { get; }
         public int MaxEnemies { get; }
 
-        public Column(Game game) {
-            this.game = game;
+        public Column() {
+            
             MaxEnemies = 3;
             Enemies = new EntityContainer<Enemy>();
         }
@@ -19,7 +19,7 @@ namespace Galaga_Exercise_3.Squadrons {
 
         public void CreateEnemies(List<Image> enemyStrides) {
             for (var i = 0; i < MaxEnemies; i++) {
-                Enemies.AddDynamicEntity(new Enemy(game,
+                Enemies.AddDynamicEntity(new Enemy(
                     new DynamicShape(
                         new Vec2F(
                             0.1f, 

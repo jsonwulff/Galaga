@@ -29,7 +29,7 @@ namespace Galaga_Exercise_3.GalagaStates {
         private ZigZagDown movementStrategy;
 
         public List<PlayerShot> playerShots { get; private set; }
-        public Image playerShotImage { get; }
+        public Image playerShotImage { get; set; }
 
         private List<Image> explosionStrides;
         private AnimationContainer explosions;
@@ -39,28 +39,7 @@ namespace Galaga_Exercise_3.GalagaStates {
         private Score score;
 
         public GameRunning() {
-            player = new Player(game,
-                new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
-                new Image(Path.Combine("Assets", "Images", "Player.png")));
-
-            eventBus = GalagaBus.GetBus();
-                        
-            enemyStrides = ImageStride.CreateStrides(4,
-                Path.Combine("Assets", "Images", "BlueMonster.png"));
-            enemies = new List<Enemy>();
-            row = new Row(game);
-            movementStrategy = new ZigZagDown();
-            
-            
-            playerShots = new List<PlayerShot>();
-            playerShotImage = new Image(
-                Path.Combine("Assets", "Images", "BulletRed2.png"));
-            
-            explosionStrides = ImageStride.CreateStrides(8,
-                Path.Combine("Assets", "Images", "Explosion.png"));
-            explosions = new AnimationContainer(4);
-            
-            score = new Score(new Vec2F(0.01f, -0.25f), new Vec2F(0.3f, 0.3f));
+            InitializeGameState();
         }
         public static GameRunning GetInstance() {
             return GameRunning.instance ?? (GameRunning.instance = new GameRunning());
@@ -130,11 +109,32 @@ namespace Galaga_Exercise_3.GalagaStates {
         }
 
         public void InitializeGameState() {
-            throw new System.NotImplementedException();
+            player = new Player(game,
+                new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
+                new Image(Path.Combine("Assets", "Images", "Player.png")));
+
+            eventBus = GalagaBus.GetBus();
+                        
+            enemyStrides = ImageStride.CreateStrides(4,
+                Path.Combine("Assets", "Images", "BlueMonster.png"));
+            enemies = new List<Enemy>();
+            row = new Row();
+            movementStrategy = new ZigZagDown();
+            
+            
+            playerShots = new List<PlayerShot>();
+            playerShotImage = new Image(
+                Path.Combine("Assets", "Images", "BulletRed2.png"));
+            
+            explosionStrides = ImageStride.CreateStrides(8,
+                Path.Combine("Assets", "Images", "Explosion.png"));
+            explosions = new AnimationContainer(4);
+            
+            score = new Score(new Vec2F(0.01f, -0.25f), new Vec2F(0.3f, 0.3f));
         }
 
         public void UpdateGameLogic() {
-            throw new System.NotImplementedException();
+            GameRunning.GetInstance();
         }
 
         public void RenderState() {
