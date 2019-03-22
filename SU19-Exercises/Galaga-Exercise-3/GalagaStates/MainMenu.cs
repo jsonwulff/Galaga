@@ -51,7 +51,6 @@ namespace Galaga_Exercise_3.GalagaStates {
 
         public void UpdateGameLogic() {
             MainMenu.GetInstance();
-            ActivateButton();
             HandleButtons();
         }
 
@@ -71,7 +70,7 @@ namespace Galaga_Exercise_3.GalagaStates {
         }
 
         public void ActivateButton() {
-            switch (activeMenuButton) {
+            switch (activeMenuButton % maxMenuButtons) {
             case 0:
                 GalagaBus.GetBus().RegisterEvent(
                     GameEventFactory<object>.CreateGameEventForAllProcessors(
@@ -90,11 +89,11 @@ namespace Galaga_Exercise_3.GalagaStates {
             switch (key) {
             case "KEY_UP":
                 Console.WriteLine("Key Up");
-                //activeMenuButton += 1;
+                activeMenuButton += 1;
                 break;
             case "KEY_DOWN":
                 Console.WriteLine("Key Down");
-                //activeMenuButton += 1;
+                activeMenuButton += 1;
                 break;
             case "KEY_ENTER":
                 ActivateButton();
