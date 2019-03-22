@@ -1,23 +1,34 @@
+using System;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using DIKUArcade;
+using DIKUArcade.Entities;
+using DIKUArcade.EventBus;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.State;
+using Image = DIKUArcade.Graphics.Image;
 
 namespace Galaga_Exercise_3.GalagaStates {
     public class GamePaused : IGameState {
-        
         private static GamePaused instance = null;
-        
-        private Text[] pauseButtons;
-        private Text buttonOne;
+
+        private Entity backGroundImage;
+        private Text[] menuButtons;
+        private Text newGame;
+        private Text quit;
+        private int activeMenuButton;
+        private int maxMenuButtons = 2;
         private Vec3I activeColor;
         private Vec3I inactiveColor;
 
-        public static GamePaused GetInstance() {
-            return GamePaused.instance ?? (GamePaused.instance = new GamePaused());
-        }
-
         public GamePaused() {
             InitializeGameState();
+        }
+        
+        public static GamePaused GetInstance() {
+            return GamePaused.instance ?? (GamePaused.instance = new GamePaused());
         }
 
         public void GameLoop() {
@@ -25,11 +36,18 @@ namespace Galaga_Exercise_3.GalagaStates {
         }
 
         public void InitializeGameState() {
-            buttonOne = new Text("New Game", new Vec2F(0.5f, 0.5f), new Vec2F(0.2f, 0.2f));
+            activeMenuButton = 0;
+            backGroundImage = new Entity(new StationaryShape(new Vec2F(0,0), new Vec2F(1,1) ), new Image(Path.Combine( "Assets",  "Images", "TitleImage.png")));
+            menuButtons = new Text[maxMenuButtons];
+            newGame = new Text("New Game", new Vec2F(0.5f, 0.5f), new Vec2F(0.2f, 0.2f));
+            quit = new Text("Quit", new Vec2F(0.5f, 0.3f), new Vec2F(0.2f, 0.2f));
+            menuButtons[0] = newGame;
+            menuButtons[1] = quit;
+            
             activeColor = new Vec3I(255,255,255);
             inactiveColor = new Vec3I(190,190,190);
-            
-            buttonOne.SetColor(activeColor);
+            HandleButtons();
+
         }
 
         public void UpdateGameLogic() {
@@ -37,12 +55,61 @@ namespace Galaga_Exercise_3.GalagaStates {
         }
 
         public void RenderState() {
-            
-            buttonOne.RenderText();
+            backGroundImage.RenderEntity();
+            foreach (var button in menuButtons) {
+                button.RenderText();
+            }
+
         }
 
+        public void HandleButtons() {
+            foreach (var button in menuButtons) {
+                button.SetColor(inactiveColor);                
+            }
+            menuButtons[activeMenuButton % maxMenuButtons].SetColor(activeColor);
+            RenderState();
+        }
+
+        public void ActivateButton() {
+            switch (activeMenuButton % maxMenuButtons) {
+            case 0:
+                GalagaBus.GetBus().RegisterEvent(
+                    GameEventFactory<object>.CreateGameEventForAllProcessors(
+                        GameEventType.GameStateEvent, this, "CHANGE_STATE", "GAME_RUNNING", ""));
+                break;
+            case 1:
+                GalagaBus.GetBus().RegisterEvent(
+                    GameEventFactory<object>.CreateGameEventForAllProcessors(
+                        GameEventType.WindowEvent, this, "CLOSE_WINDOW", "", ""));
+                break;
+            }
+        }
+        
+        public void KeyPress(string key) {
+            switch (key) {
+            case "KEY_UP":
+                activeMenuButton += 1;
+                HandleButtons();
+                break;
+            case "KEY_DOWN":
+                activeMenuButton += 1;
+                HandleButtons();
+                break;
+            case "KEY_ENTER":
+                ActivateButton();
+                HandleButtons();
+                break;
+            }
+        }
+        
         public void HandleKeyEvent(string keyValue, string keyAction) {
-            throw new System.NotImplementedException();
+            switch (keyAction) {
+                case "KEY_PRESS":
+                    KeyPress(keyValue);
+                    break;
+                case "KEY_RELEASE":
+                    break;
+            }
         }
     }
 }

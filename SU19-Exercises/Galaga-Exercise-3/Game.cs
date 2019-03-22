@@ -110,7 +110,6 @@ namespace Galaga_Exercise_3 {
                 switch (gameEvent.Parameter1) {
                 case "KEY_PRESS":
                     stateMachine.ActiveState.HandleKeyEvent(gameEvent.Message, gameEvent.Parameter1);
-                    KeyPress(gameEvent.Message);
                     break;
                 }
             }
