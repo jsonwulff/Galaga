@@ -34,12 +34,8 @@ namespace Galaga_Exercise_3 {
                 case "CHANGE_STATE":
                     SwitchState(StateTransformer.TransformStringToState(gameEvent.Parameter1));
                     break;
-                
                 }
-            } else if (eventType == GameEventType.InputEvent) {
-                Console.WriteLine("inputevent");
-                ActiveState.HandleKeyEvent(gameEvent.Parameter1,gameEvent.Message);
-            }
+            }  
         }
     }
 }

@@ -86,28 +86,19 @@ namespace Galaga_Exercise_3.GalagaStates {
         }
         
         public void KeyPress(string key) {
+            Console.WriteLine("Keypres in main menu");
             switch (key) {
-            case "KEY_LEFT":
-                Console.WriteLine("up");
-                activeMenuButton -= 1;
-                HandleButtons();
+            case "KEY_UP":
+                Console.WriteLine("Key Up");
+                //activeMenuButton += 1;
                 break;
             case "KEY_DOWN":
-                activeMenuButton += 1;
+                Console.WriteLine("Key Down");
+                //activeMenuButton += 1;
                 break;
             case "KEY_ENTER":
                 ActivateButton();
                 break;
-            }
-        }
-        
-        /// <summary>
-        /// KeyRelease handles logic when a key sent by ProcessEvent is released.
-        /// </summary>
-        /// <param name="key"></param>
-        public void KeyRelease(string key) {
-            switch (key) {
-
             }
         }
         

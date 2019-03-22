@@ -23,8 +23,6 @@ namespace Galaga_Exercise_3 {
         
         public GameEventBus<object> eventBus;
         
-        
-        
         /// <summary>
         /// Constructor for Game class
         /// </summary>
@@ -48,13 +46,7 @@ namespace Galaga_Exercise_3 {
             eventBus.Subscribe(GameEventType.PlayerEvent, stateMachine);
             
         }
-        
-        
-
-       
-        
-
-
+      
         /// <summary>
         /// GameLoop utilizes the GameTimer class to ensure that the game runs at a steady speed on all systems.
         /// We update both rendering and game logic in the loop. The speed of the updates are specified in the gameTimer object.
@@ -91,16 +83,12 @@ namespace Galaga_Exercise_3 {
         /// </summary>
         /// <param name="key"></param>
         public void KeyPress(string key) {
-            eventBus.RegisterEvent(
-                GameEventFactory<object>.CreateGameEventForAllProcessors(
-                    GameEventType.InputEvent, this, "KEY_PRESS", key, ""));
             switch (key) {
             case "KEY_ESCAPE":
                 eventBus.RegisterEvent(
                     GameEventFactory<object>.CreateGameEventForAllProcessors(
                         GameEventType.WindowEvent, this, "CLOSE_WINDOW", "", ""));
                 break;
-            
             }
         }
 
@@ -121,6 +109,7 @@ namespace Galaga_Exercise_3 {
                 switch (gameEvent.Parameter1) {
                 case "KEY_PRESS":
                     Console.WriteLine("keyPress");
+                    stateMachine.ActiveState.HandleKeyEvent(gameEvent.Message, gameEvent.Parameter1);
                     KeyPress(gameEvent.Message);
                     break;
                 }
