@@ -7,6 +7,11 @@ namespace Galaga_Exercise_3.GalagaStates {
             return GameRunning.instance ?? (GameRunning.instance = new GameRunning());
         }
         
+        public static GameRunning NewInstance() {
+            GameRunning.instance = null;
+            return GameRunning.instance = new GameRunning();
+        }
+        
         public void GameLoop() {
             throw new System.NotImplementedException();
         }
