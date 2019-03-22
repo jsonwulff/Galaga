@@ -33,9 +33,7 @@ namespace Galaga_Exercise_3 {
                 case "CHANGE_STATE":
                     SwitchState(StateTransformer.TransformStringToState(gameEvent.Parameter1));
                     break;
-                case "NEW_GAME":
-                    GameRunning.NewInstance();
-                    break;
+                
                 }
             } else if (eventType == GameEventType.InputEvent) {
                 ActiveState.HandleKeyEvent(gameEvent.Parameter1,gameEvent.Message);

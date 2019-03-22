@@ -70,7 +70,7 @@ namespace Galaga_Exercise_3.GalagaStates {
             case 0:
                 GalagaBus.GetBus().RegisterEvent(
                     GameEventFactory<object>.CreateGameEventForAllProcessors(
-                        GameEventType.WindowEvent, this, "CHANGE_STATE", "NEW_GAME", ""));
+                        GameEventType.WindowEvent, this, "CHANGE_STATE", "GAME_RUNNING", ""));
                 break;
             case 1:
                 GalagaBus.GetBus().RegisterEvent(
